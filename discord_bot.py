@@ -9,8 +9,9 @@ from dotenv import load_dotenv
 
 from trends import fetch_trends, fetch_reddit_ideas, fetch_arxiv_papers
 from onepager import generate_onepager
-from gemini_client import call_gemini, build_prompt, score_ideas
+from gemini_client import call_gemini, build_prompt, score_ideas, composite_score
 from pi_terminal import TerminalManager
+from ratings import save_rating
 
 load_dotenv()
 
@@ -106,13 +107,9 @@ async def generate_idea(channel, combo):
     idea_text = await loop.run_in_executor(None, functools.partial(call_gemini, prompt))
 
     scores = await loop.run_in_executor(None, score_ideas, [idea_text])
-    if scores:
-        s = scores[0]
-        composite = round(
-            (s["market_size"] + s["feasibility"] + s["novelty"] + s["competition"]) / 4, 1
-        )
-    else:
-        composite = 0.0
+    s = scores[0] if scores else None
+    # None means scoring failed — distinct from a legitimate low score
+    composite = composite_score(s) if s else None
 
     return idea_text, composite
 
@@ -156,6 +153,7 @@ async def on_message(message):
             "`!explore` — guided business idea generator\n"
             "`!cancel` — cancel in-progress exploration\n"
             "`!onepager` — expand last idea into a full one-pager\n"
+            "`!rate <1-5>` — rate the last idea (calibrates the auto-scorer)\n"
             "`!help` — show this message"
         )
         if user_id in TERMINAL_ADMIN_IDS:
@@ -243,6 +241,23 @@ async def on_message(message):
             await message.channel.send("No active exploration session.")
         return
 
+    # ---- !rate <1-5> ----
+    if text_lower.startswith("!rate"):
+        if user_id not in last_idea:
+            await message.channel.send("No idea to rate yet. Use `!explore` first.")
+            return
+        arg = text[len("!rate"):].strip()
+        if not arg.isdigit() or not 1 <= int(arg) <= 5:
+            await message.channel.send("Usage: `!rate <1-5>`")
+            return
+        idea_text, score = last_idea[user_id]
+        loop = asyncio.get_running_loop()
+        await loop.run_in_executor(
+            None, functools.partial(save_rating, idea_text, int(arg), user_id, score)
+        )
+        await message.channel.send(f"Rated {arg}/5 — thanks! Ratings calibrate the auto-scorer over time.")
+        return
+
     # ---- !onepager ----
     if text_lower == "!onepager":
         if user_id not in last_idea:
@@ -250,6 +265,8 @@ async def on_message(message):
             return
 
         idea_text, score = last_idea[user_id]
+        if score is None:
+            score = "not yet scored"
         await message.channel.send("Generating one-pager... this takes ~15 seconds ⏳")
         loop = asyncio.get_running_loop()
         try:
@@ -307,9 +324,14 @@ async def on_message(message):
             return
 
         last_idea[user_id] = (idea_text, score)
-        score_line = f"\n\n**Viability score: {score}/10**" if score else ""
+        score_line = (
+            f"\n\n**Viability score: {score}/10**" if score is not None
+            else "\n\n*(automatic scoring unavailable for this idea)*"
+        )
         await send_in_chunks(message.channel, idea_text + score_line)
-        await message.channel.send("Type `!onepager` to get the full business plan expansion.")
+        await message.channel.send(
+            "Type `!onepager` for the full business plan, or `!rate <1-5>` to rate this idea."
+        )
 
 
 client.run(TOKEN)

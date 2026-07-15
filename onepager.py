@@ -94,10 +94,18 @@ def generate_onepager(idea_text, score):
         "Broken into phases. Each phase has a clear milestone and deliverable.\n\n"
         "## Key Risks & Mitigations\n"
         "Top 3 risks. One concrete mitigation per risk.\n\n"
+        "## First 10 Customers\n"
+        "Name the exact communities, channels, or lists where the first 10 customers are. "
+        "Include a 2-3 sentence outreach message tailored to them. No generic advice like "
+        "'post on social media' — be specific enough to act on today.\n\n"
+        "## Cost to Validate\n"
+        "What a 2-week validation test costs in dollars and hours, what the test is, "
+        "and the specific signal that means 'continue' vs 'kill'.\n\n"
         "## Next Steps\n"
         "The first 3 actions to take this week. Be specific and actionable.\n"
     )
-    return call_gemini(prompt)
+    # A full one-pager overflows the 1024-token default and gets cut mid-sentence
+    return call_gemini(prompt, max_tokens=4096)
 
 
 def main():
@@ -125,7 +133,8 @@ def main():
 
     for _, row in pending.iterrows():
         name = extract_name(row["idea"])
-        slug = slugify(name)
+        # Hash suffix keeps same-named ideas from overwriting each other's files
+        slug = f"{slugify(name)}-{row['hash'][:8]}"
         path = OUTDIR / f"{slug}.md"
 
         print(f"  {name} (score {row['score']}/10)...")

@@ -56,7 +56,7 @@ def push_to_display(image_path):
         from PIL import Image
 
         epd = epd7in5_v2.EPD()
-        epd.Init()
+        epd.init()
         epd.Clear()
 
         img = Image.open(image_path).convert("1")
