@@ -16,11 +16,11 @@ from gemini_client import (
     build_prompt, score_ideas, call_gemini, embed_text,
     composite_score, EMBED_MODEL,
 )
+from idea_log import LOG_PATH, load_log, save_log
 
 load_dotenv()
 
 # ==== CONFIGURATION ====
-LOG_PATH       = Path("money_making_ideas_log.parquet")
 YAML_PATH      = Path("config.yml")
 EMBEDDING_PATH = Path("embeddings.pkl")
 
@@ -50,29 +50,10 @@ monetization    = config["monetization"]
 subreddits      = config.get("subreddits", [])
 
 # ==== LOAD & MIGRATE LOG ====
-# New columns have defaults so existing parquet files upgrade automatically.
-# Idea lifecycle: generated -> onepager -> poc -> launched | killed
-DEFAULTS = {
-    "idea": "", "industry": "", "business_model": "", "hash": "",
-    "score": 0.0, "market_size": 0, "feasibility": 0,
-    "novelty": 0, "competition": 0, "trend_context": "",
-    "displayed": False, "timestamp": "",
-    "status": "generated", "status_note": "",
-    "user_rating": np.nan,
-    "validation_score": np.nan, "validation_summary": "",
-}
-
-if LOG_PATH.exists():
-    log_df = pd.read_parquet(LOG_PATH)
-    for col, default in DEFAULTS.items():
-        if col not in log_df.columns:
-            log_df[col] = default
-    used_industries = log_df["industry"].tolist()[-ROTATION_WINDOW:]
-    used_models     = log_df["business_model"].tolist()[-ROTATION_WINDOW:]
-else:
-    log_df          = pd.DataFrame(columns=DEFAULTS.keys())
-    used_industries = []
-    used_models     = []
+# Schema migration lives in idea_log.load_log — one place, every script.
+log_df          = load_log()
+used_industries = log_df["industry"].tolist()[-ROTATION_WINDOW:]
+used_models     = log_df["business_model"].tolist()[-ROTATION_WINDOW:]
 
 # Load persisted idea embeddings for semantic dedup
 if EMBEDDING_PATH.exists():
@@ -251,7 +232,7 @@ def main():
 
         if new_rows:
             log_df = pd.concat([log_df, pd.DataFrame(new_rows)], ignore_index=True)
-            log_df.to_parquet(LOG_PATH, index=False)
+            save_log(log_df)
             print(f"\n  {len(new_rows)} idea(s) logged to {LOG_PATH}")
         else:
             print(f"\n  All ideas scored below {SCORE_THRESHOLD}/10 — nothing logged.")

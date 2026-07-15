@@ -11,7 +11,8 @@ from tenacity import retry, wait_exponential, stop_after_attempt
 load_dotenv()
 
 GEMINI_API_KEY = os.getenv("GEMINI_API_KEY")
-GEMINI_MODEL   = os.getenv("GEMINI_MODEL", "gemini-2.0-flash")
+# gemini-2.0-flash free-tier quota was retired (limit: 0) — 2.5-flash is current
+GEMINI_MODEL   = os.getenv("GEMINI_MODEL", "gemini-2.5-flash")
 EMBED_MODEL    = "gemini-embedding-001"
 
 REQUEST_TIMEOUT = 60  # seconds
@@ -51,6 +52,10 @@ def call_gemini(prompt, max_tokens=1024, temperature=0.85):
             "generationConfig": {
                 "temperature":     temperature,
                 "maxOutputTokens": max_tokens,
+                # 2.5-series models spend "thinking" tokens out of the same
+                # budget — with small max_tokens the visible answer starves.
+                # These are formatting/copy tasks; thinking adds nothing.
+                "thinkingConfig":  {"thinkingBudget": 0},
             },
         },
         timeout=REQUEST_TIMEOUT,
@@ -60,7 +65,12 @@ def call_gemini(prompt, max_tokens=1024, temperature=0.85):
     candidates = data.get("candidates", [])
     if not candidates:
         raise ValueError(f"Gemini returned no candidates. Response: {data}")
-    return candidates[0]["content"]["parts"][0]["text"].strip()
+    parts = candidates[0].get("content", {}).get("parts", [])
+    text = "".join(p.get("text", "") for p in parts if not p.get("thought")).strip()
+    if not text:
+        raise ValueError(f"Gemini returned no text (finishReason="
+                         f"{candidates[0].get('finishReason')}). Raise max_tokens?")
+    return text
 
 
 @retry(stop=stop_after_attempt(5), wait=wait_exponential(multiplier=2, min=4, max=60))

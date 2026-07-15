@@ -14,15 +14,14 @@ import re
 import sys
 import argparse
 
-import pandas as pd
 from pathlib import Path
 from dotenv import load_dotenv
 
 from gemini_client import call_gemini
+from idea_log import LOG_PATH, load_log, save_log
 
 load_dotenv()
 
-LOG_PATH = Path("money_making_ideas_log.parquet")
 OUTDIR   = Path("onepagers")
 
 OUTDIR.mkdir(exist_ok=True)
@@ -118,7 +117,7 @@ def main():
         print("No ideas logged yet. Run main.py first.")
         sys.exit(0)
 
-    df      = pd.read_parquet(LOG_PATH)
+    df      = load_log()
     done    = existing_hashes()
     pending = df[~df["hash"].isin(done) & (df["score"] > 0)].sort_values("score", ascending=False)
 
@@ -143,6 +142,13 @@ def main():
         # Hash comment at the top so we know this idea has been expanded
         path.write_text(f"<!-- id: {row['hash']} -->\n{content}\n")
         print(f"    -> {path}")
+
+        # Advance lifecycle status (generated -> onepager); don't regress
+        # ideas that are already further along (poc/launched/killed)
+        if df.loc[row.name, "status"] in ("generated", "unscored", ""):
+            df.loc[row.name, "status"] = "onepager"
+
+    save_log(df)
 
     print(f"\nDone. One-pagers in {OUTDIR}/")
 

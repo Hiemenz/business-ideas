@@ -7,9 +7,34 @@ Optionally renders the top ideas to a Waveshare 7.5" e-ink display on a Raspberr
 
 ```
 main.py          — generate 5 ideas, dedupe via embeddings, score, log to parquet
+validate.py      — external validation signals (Reddit pain-mining, Hacker News)
 onepager.py      — expand top-scored ideas into full one-pager markdown
+landing.py       — generate a static waitlist landing page for an idea
+status.py        — track idea outcomes (generated → onepager → poc → launched|killed)
+digest.py        — weekly top-ideas digest (stdout + Discord webhook)
+dashboard.py     — static HTML portfolio dashboard from the parquet log
 display.py       — render the next pending idea to e-ink (Pi only)
+discord_bot.py   — interactive idea generation + !rate over Discord
+ratings.py       — your 1-5 ratings vs Gemini's scores (calibration report)
 ```
+
+Shared modules: `gemini_client.py` (all Gemini calls, rate-limited),
+`idea_log.py` (parquet schema + migration), `trends.py` (trend/Reddit/arXiv
+context), `render.py` (e-ink PNG).
+
+### The idea lifecycle
+
+1. `main.py` generates and scores ideas (cron-friendly).
+2. `validate.py` adds outside evidence — are people complaining about this
+   problem? Is anyone shipping in this space?
+3. `onepager.py` expands winners (now includes **First 10 Customers** and
+   **Cost to Validate** sections).
+4. `landing.py` builds a waitlist page — signups are the real market test.
+5. `status.py set <hash> poc|launched|killed --note "why"` records what
+   happened; killed/launched outcomes are fed back into the generation
+   prompt so the generator learns from real results.
+6. `digest.py` (cron, Mondays) surfaces the week's top ideas plus stale
+   high-scorers; `dashboard.py` shows the whole portfolio.
 
 ---
 
@@ -31,48 +56,66 @@ git clone <your-repo-url>
 cd business_ideas
 ```
 
-### 2. Create a virtual environment and install dependencies
+### 2. Install dependencies (Poetry)
 
 ```bash
-python3 -m venv .venv
-source .venv/bin/activate
-pip install pyaml numpy pandas pyarrow requests Pillow
+poetry install
 ```
+
+Run any script with `poetry run python <script>.py` (or `poetry shell` once).
 
 ### 3. Set your API key
 
-Option A — export it in your shell (lasts for the current session):
+Copy the template and fill in your key — scripts auto-load `.env` via
+python-dotenv:
 
 ```bash
-export GEMINI_API_KEY="AIza..."
+cp .env.example .env
+# edit .env and set GEMINI_API_KEY
 ```
 
-Option B — create a `.env` file and source it before each run:
-
-```bash
-echo 'export GEMINI_API_KEY="AIza..."' > .env
-source .env
-```
-
-Option C — if you use an IDE or tool that auto-loads `.env`, just put the
-`export` line in that file and it will be picked up automatically.
+The default model is `gemini-2.5-flash` (Google zeroed out free-tier quota
+for `gemini-2.0-flash`; override with `GEMINI_MODEL` in `.env` if needed).
 
 ### 4. Run the pipeline
 
 Generate and score ideas:
 
 ```bash
-python main.py
+poetry run python main.py
 ```
 
-Expand the top ideas into one-pagers (all new ideas, or just the top N):
+Fetch external validation signals for the top unvalidated ideas:
 
 ```bash
-python onepager.py
-python onepager.py --top 3
+poetry run python validate.py --top 3
 ```
 
-One-pagers are saved to `onepagers/`.
+Expand the top ideas into one-pagers (saved to `onepagers/`):
+
+```bash
+poetry run python onepager.py --top 3
+```
+
+Build a waitlist landing page for the best idea (saved to `landing_pages/`;
+set `FORM_ENDPOINT` in `.env` to a free formspree.io form to collect emails):
+
+```bash
+poetry run python landing.py
+```
+
+Track outcomes and review the portfolio:
+
+```bash
+poetry run python status.py list
+poetry run python status.py set ab12cd34 killed --note "no search demand"
+poetry run python dashboard.py     # writes dashboard.html
+poetry run python digest.py        # weekly summary; posts to Discord if configured
+```
+
+Note: Reddit blocks unauthenticated API access from some networks (you'll
+see 403s). Validation scores normalize to the sources that respond, so this
+degrades gracefully.
 
 ---
 
@@ -201,14 +244,9 @@ ideas in the parquet file are unaffected.
 
 ### Foundations
 
-- [ ] **Make it a git repo** — `git init`, plus a `.gitignore` for `__pycache__/`,
-  `.venv/`, `.env`, `embeddings.pkl`, `trends_cache.json`, and the parquet log.
-  The `.env` file holds the Gemini API key and must never be committed.
-- [ ] **Add a `.env.example`** documenting `GEMINI_API_KEY`, `GEMINI_MODEL`, and
-  the Discord bot token, so setup is self-documenting without exposing secrets.
-- [ ] **Sync the README with reality** — setup should say `poetry install`
-  (the project uses Poetry, not manual `pip install`), and the README should
-  cover `discord_bot.py`, `pi_terminal.py`, and the `proof-of-concepts/` folder.
+- [x] **Make it a git repo** — done, with `.gitignore` covering secrets and caches.
+- [x] **Add a `.env.example`** — done.
+- [x] **Sync the README with reality** — done (Poetry install, all scripts documented).
 
 ### Code quality
 
@@ -216,10 +254,8 @@ ideas in the parquet file are unaffected.
   suite in `tests/` covering `is_duplicate` cosine-similarity behavior,
   `pick_combo` rotation-window logic, parquet column migration, and
   trend-cache TTL expiry.
-- [ ] **Extract shared code** — consolidate config-loading, API-calling, and
-  retry logic into `gemini_client.py` (owning `call_gemini`, `embed_text`,
-  and throttling). Currently `embed_text` in `main.py` bypasses the rate
-  limiter that `call_gemini` uses.
+- [x] **Extract shared code** — done: `gemini_client.py` owns all API calls +
+  throttling; `idea_log.py` owns the parquet schema and migration.
 - [ ] **Replace pickle with JSON for embeddings** — `embeddings.pkl` is
   unversioned binary; the stored `{"model": ..., "vec": ...}` dicts
   serialize trivially to JSON, which diffs better and is safe to load.
@@ -236,6 +272,10 @@ ideas in the parquet file are unaffected.
   numbered markdown files browsable and track which ideas are being pursued.
 - [ ] **CI** — GitHub Actions running `pytest` + `ruff` on push, once the
   repo is on GitHub.
-- [ ] **Score-drift guard** — when scoring returns fewer scores than ideas,
-  retry the scoring call for the missing ones or log unscored ideas with a
-  null score, instead of silently dropping generated (and paid-for) ideas.
+- [x] **Score-drift guard** — done: malformed scores are validated, missing
+  ones retried per-idea, still-unscored ideas logged with status `unscored`.
+- [ ] **Reddit OAuth** — Reddit blocks anonymous JSON from many networks;
+  registering a free script app and using OAuth would restore the Reddit
+  signals in `trends.py` and `validate.py` everywhere.
+- [ ] **Calibrated score weights** — once `!rate` has collected ~50 ratings,
+  use `python ratings.py` correlation output to reweight the four sub-scores.
