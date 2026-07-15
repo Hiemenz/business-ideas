@@ -1,0 +1,86 @@
+settings:
+  batch_size: 5
+  score_threshold: 6.0
+  similarity_threshold: 0.85
+  rotation_window: 30
+  posts_per_sub: 3
+  arxiv_max_results: 5
+  trend_cache_ttl_hours: 24
+  gemini_rpm_limit: 14
+
+industries:
+  - education
+  - gaming
+  - finance
+  - wellness
+  - real estate
+  - e-commerce
+  - cryptocurrency
+  - content creation
+  - healthcare
+  - travel
+
+business_models:
+  - ads
+  - SaaS
+  - NFT
+  - freelance automation
+  - subscription
+  - data resale
+  - affiliate marketing
+  - marketplace
+  - consulting
+  - licensing
+
+monetization:
+  - pay-per-use
+  - freemium with upsell
+  - API licensing
+  - ad-supported with upgrade
+  - crowdfunding
+  - in-app purchases
+
+platforms:
+  - mobile app
+  - web app
+  - desktop software
+  - browser plugin
+  - command-line tool
+  - chatbot
+  - voice assistant
+
+problems:
+  - time management
+  - financial literacy
+  - mental wellness
+  - learning motivation
+  - productivity
+  - loneliness
+  - accessibility
+
+
+technologies:
+  - AI/ML
+  - blockchain
+  - IoT
+  - web scraping
+  - browser extensions
+  - gamification
+  - AR/VR
+
+audiences:
+  - college students
+  - small business owners
+  - remote workers
+  - digital nomads
+  - retirees
+  - parents with young kids
+  - non-tech professionals
+
+subreddits:
+  - startups
+  - entrepreneur
+  - businessideas
+  - sideprojects
+  - SaaS
+  - passive_income
