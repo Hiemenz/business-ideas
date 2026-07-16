@@ -32,7 +32,7 @@ def get_next_idea():
         return None, None, None
 
     df      = load_log()
-    pending = df[df["displayed"] == False].sort_values("score", ascending=False)
+    pending = df[~df["displayed"]].sort_values("score", ascending=False)
 
     if pending.empty:
         return None, None, None

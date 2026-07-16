@@ -9,7 +9,6 @@ Usage:
     python onepager.py            # one-pager for every new scored idea
     python onepager.py --top 3    # only the top 3 by score
 """
-import os
 import re
 import sys
 import argparse

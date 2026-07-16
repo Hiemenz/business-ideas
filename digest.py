@@ -15,7 +15,6 @@ Cron (Monday 9am):
 import argparse
 import sys
 from datetime import datetime, timedelta
-from pathlib import Path
 
 import pandas as pd
 

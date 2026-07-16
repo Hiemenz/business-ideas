@@ -1,3 +1,4 @@
+import logging
 import os
 import re
 import json
@@ -9,6 +10,8 @@ from dotenv import load_dotenv
 from tenacity import retry, wait_exponential, stop_after_attempt
 
 load_dotenv()
+
+logger = logging.getLogger(__name__)
 
 GEMINI_API_KEY = os.getenv("GEMINI_API_KEY")
 # gemini-2.0-flash free-tier quota was retired (limit: 0) — 2.5-flash is current
@@ -154,7 +157,7 @@ def score_ideas(ideas, max_retries=1):
         try:
             return _clean_scores(parse_json_block(raw), len(batch))
         except (ValueError, json.JSONDecodeError) as e:
-            print(f"  Failed to parse scores from Gemini: {e}")
+            logger.warning("Failed to parse scores from Gemini: %s", e)
             return [None] * len(batch)
 
     scores = ask(ideas)
@@ -164,7 +167,7 @@ def score_ideas(ideas, max_retries=1):
         missing = [i for i, s in enumerate(scores) if s is None]
         if not missing:
             break
-        print(f"  Retrying scoring for {len(missing)} idea(s)...")
+        logger.info("Retrying scoring for %d idea(s)...", len(missing))
         retried = ask([ideas[i] for i in missing])
         for idx, s in zip(missing, retried):
             scores[idx] = s

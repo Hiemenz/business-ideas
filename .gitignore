@@ -8,6 +8,7 @@ __pycache__/
 
 # Generated data / caches
 embeddings.pkl
+embeddings.json
 trends_cache.json
 ratings.parquet
 dashboard.html

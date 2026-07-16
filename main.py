@@ -1,8 +1,8 @@
 import json
+import logging
 import random
 import hashlib
 from datetime import datetime
-import pickle
 from pathlib import Path
 
 import numpy as np
@@ -10,7 +10,7 @@ import pandas as pd
 import yaml
 from dotenv import load_dotenv
 
-from trends import fetch_trends, fetch_reddit_ideas, fetch_arxiv_papers
+from trends import fetch_trends, fetch_reddit_ideas, fetch_arxiv_papers, load_trend_cache, save_trend_cache
 import gemini_client
 from gemini_client import (
     build_prompt, score_ideas, call_gemini, embed_text,
@@ -19,10 +19,12 @@ from gemini_client import (
 from idea_log import LOG_PATH, load_log, save_log
 
 load_dotenv()
+logging.basicConfig(level=logging.INFO, format="%(levelname)s %(message)s")
+logger = logging.getLogger(__name__)
 
 # ==== CONFIGURATION ====
 YAML_PATH      = Path("config.yml")
-EMBEDDING_PATH = Path("embeddings.pkl")
+EMBEDDING_PATH = Path("embeddings.json")
 
 if not gemini_client.GEMINI_API_KEY:
     raise SystemExit("GEMINI_API_KEY environment variable is not set.")
@@ -50,45 +52,28 @@ monetization    = config["monetization"]
 subreddits      = config.get("subreddits", [])
 
 # ==== LOAD & MIGRATE LOG ====
-# Schema migration lives in idea_log.load_log — one place, every script.
 log_df          = load_log()
 used_industries = log_df["industry"].tolist()[-ROTATION_WINDOW:]
 used_models     = log_df["business_model"].tolist()[-ROTATION_WINDOW:]
 
-# Load persisted idea embeddings for semantic dedup
+# Load persisted embeddings — JSON format, migrate from legacy pkl if present
+_pkl_path = Path("embeddings.pkl")
 if EMBEDDING_PATH.exists():
-    with open(EMBEDDING_PATH, "rb") as f:
-        stored_embeddings = pickle.load(f)
+    with open(EMBEDDING_PATH) as f:
+        stored_embeddings = json.load(f)
+elif _pkl_path.exists():
+    import pickle
+    with open(_pkl_path, "rb") as f:
+        _legacy = pickle.load(f)
+    stored_embeddings = {
+        k: (v if isinstance(v, dict) else {"model": "legacy-unknown", "vec": v})
+        for k, v in _legacy.items()
+    }
+    logger.info("Migrated embeddings.pkl → embeddings.json")
 else:
     stored_embeddings = {}
 
-# Migrate old flat-list format to versioned dict format. The model that
-# produced legacy vectors is unknown, so label them as such — is_duplicate
-# additionally guards on vector dimension, so mislabeling can't crash it.
-for k, v in list(stored_embeddings.items()):
-    if isinstance(v, list):
-        stored_embeddings[k] = {"model": "legacy-unknown", "vec": v}
-
-
-# ==== TREND CACHE ====
-TREND_CACHE_PATH = Path("trends_cache.json")
-
-def load_trend_cache():
-    if not TREND_CACHE_PATH.exists():
-        return {}
-    try:
-        with open(TREND_CACHE_PATH) as f:
-            raw = json.load(f)
-        cutoff = datetime.now().timestamp() - TREND_CACHE_TTL_HOURS * 3600
-        return {k: v for k, v in raw.items() if v.get("ts", 0) > cutoff}
-    except Exception:
-        return {}
-
-def save_trend_cache(cache):
-    with open(TREND_CACHE_PATH, "w") as f:
-        json.dump(cache, f)
-
-trends_cache = load_trend_cache()
+trends_cache = load_trend_cache(ttl_hours=TREND_CACHE_TTL_HOURS)
 
 
 # ==== HELPERS ====
@@ -98,13 +83,13 @@ def pick_combo():
     avail_industries = [i for i in industries if i not in used_industries]
     avail_models     = [m for m in business_models if m not in used_models]
     return {
-        "industry":      random.choice(avail_industries or industries),
+        "industry":       random.choice(avail_industries or industries),
         "business_model": random.choice(avail_models or business_models),
-        "audience":      random.choice(audiences),
-        "technology":    random.choice(technologies),
-        "problem":       random.choice(problems),
-        "platform":      random.choice(platforms),
-        "monetization":  random.choice(monetization),
+        "audience":       random.choice(audiences),
+        "technology":     random.choice(technologies),
+        "problem":        random.choice(problems),
+        "platform":       random.choice(platforms),
+        "monetization":   random.choice(monetization),
     }
 
 
@@ -143,29 +128,30 @@ def outcome_feedback(df, max_items=6):
 
 
 def main():
-    # ==== MAIN: generate batch ====
-    print(f"\nGenerating {BATCH_SIZE} ideas...\n")
+    logger.info("Generating %d ideas...", BATCH_SIZE)
 
     global log_df
     ideas, combos = [], []
     feedback = outcome_feedback(log_df)
 
-    # Reddit context is the same for every idea in the batch — fetch once
-    print("  Fetching Reddit ideas...")
-    reddit_ideas = fetch_reddit_ideas(subreddits, posts_per_sub=settings.get("posts_per_sub", 3)) if subreddits else "No subreddits configured."
+    logger.info("Fetching Reddit ideas...")
+    reddit_ideas = (
+        fetch_reddit_ideas(subreddits, posts_per_sub=settings.get("posts_per_sub", 3))
+        if subreddits else "No subreddits configured."
+    )
 
-    arxiv_cache = {}                              # cache arXiv results per industry
+    arxiv_cache = {}
 
     for i in range(BATCH_SIZE):
         combo    = pick_combo()
         industry = combo["industry"]
 
         if industry not in trends_cache:
-            print(f"  Fetching trends for {industry}...")
+            logger.info("Fetching trends for %s...", industry)
             trends_cache[industry] = {"text": fetch_trends(industry), "ts": datetime.now().timestamp()}
 
         if industry not in arxiv_cache:
-            print(f"  Fetching arXiv papers for {industry}...")
+            logger.info("Fetching arXiv papers for %s...", industry)
             arxiv_cache[industry] = fetch_arxiv_papers(industry, max_results=settings.get("arxiv_max_results", 5))
 
         try:
@@ -175,57 +161,56 @@ def main():
             ))
             embedding = embed_text(idea_text)
         except Exception as e:
-            print(f"  [{i+1}/{BATCH_SIZE}] Skipped — API error: {e}")
+            logger.error("[%d/%d] Skipped — API error: %s", i + 1, BATCH_SIZE, e)
             continue
 
         if is_duplicate(embedding):
-            print(f"  [{i+1}/{BATCH_SIZE}] Skipped — too similar to an existing idea")
+            logger.info("[%d/%d] Skipped — too similar to an existing idea", i + 1, BATCH_SIZE)
             continue
 
         ideas.append(idea_text)
         combos.append(combo)
-        # Store immediately so later ideas in this batch can't duplicate each other
         stored_embeddings[hashlib.md5(idea_text.encode()).hexdigest()] = {
             "model": EMBED_MODEL,
             "vec": embedding,
         }
-        print(f"  [{i+1}/{BATCH_SIZE}] Generated")
+        logger.info("[%d/%d] Generated", i + 1, BATCH_SIZE)
 
     # ==== SCORE & LOG ====
     if not ideas:
-        print("\nNo unique ideas generated this run.")
+        logger.info("No unique ideas generated this run.")
     else:
-        print(f"\nScoring {len(ideas)} idea(s)...")
+        logger.info("Scoring %d idea(s)...", len(ideas))
         scores = score_ideas(ideas)
 
         new_rows = []
         for idea, combo, score in zip(ideas, combos, scores):
             if score is None:
-                print("  Score: unavailable — logged unscored (rescore later)")
-                composite, kept = 0.0, True   # keep it; scoring failed, idea didn't
+                logger.warning("Score unavailable — logged unscored (rescore later)")
+                composite, kept = 0.0, True
             else:
                 composite = composite_score(score)
                 kept = composite >= SCORE_THRESHOLD
-                print(f"  Score: {composite}/10 — {'kept' if kept else 'filtered out'}")
+                logger.info("Score: %.1f/10 — %s", composite, "kept" if kept else "filtered out")
 
             if kept:
                 s = score or {}
                 new_rows.append({
-                    "idea":           idea,
-                    "industry":       combo["industry"],
-                    "business_model": combo["business_model"],
-                    "hash":           hashlib.md5(idea.encode()).hexdigest(),
-                    "score":          composite,
-                    "market_size":    s.get("market_size", 0),
-                    "feasibility":    s.get("feasibility", 0),
-                    "novelty":        s.get("novelty", 0),
-                    "competition":    s.get("competition", 0),
-                    "trend_context":  trends_cache[combo["industry"]]["text"],
-                    "displayed":      False,
-                    "timestamp":      datetime.now().isoformat(),
-                    "status":         "generated" if score else "unscored",
-                    "status_note":    "",
-                    "user_rating":    np.nan,
+                    "idea":               idea,
+                    "industry":           combo["industry"],
+                    "business_model":     combo["business_model"],
+                    "hash":               hashlib.md5(idea.encode()).hexdigest(),
+                    "score":              composite,
+                    "market_size":        s.get("market_size", 0),
+                    "feasibility":        s.get("feasibility", 0),
+                    "novelty":            s.get("novelty", 0),
+                    "competition":        s.get("competition", 0),
+                    "trend_context":      trends_cache[combo["industry"]]["text"],
+                    "displayed":          False,
+                    "timestamp":          datetime.now().isoformat(),
+                    "status":             "generated" if score else "unscored",
+                    "status_note":        "",
+                    "user_rating":        np.nan,
                     "validation_score":   np.nan,
                     "validation_summary": "",
                 })
@@ -233,16 +218,14 @@ def main():
         if new_rows:
             log_df = pd.concat([log_df, pd.DataFrame(new_rows)], ignore_index=True)
             save_log(log_df)
-            print(f"\n  {len(new_rows)} idea(s) logged to {LOG_PATH}")
+            logger.info("%d idea(s) logged to %s", len(new_rows), LOG_PATH)
         else:
-            print(f"\n  All ideas scored below {SCORE_THRESHOLD}/10 — nothing logged.")
+            logger.info("All ideas scored below %.1f/10 — nothing logged.", SCORE_THRESHOLD)
 
     save_trend_cache(trends_cache)
 
-    # Persist embeddings — includes ideas that failed the score filter
-    # so they won't be regenerated next run.
-    with open(EMBEDDING_PATH, "wb") as f:
-        pickle.dump(stored_embeddings, f)
+    with open(EMBEDDING_PATH, "w") as f:
+        json.dump(stored_embeddings, f)
 
 
 if __name__ == "__main__":
