@@ -1,18 +1,43 @@
 """Fetches current industry trends via Gemini.
 Falls back gracefully if GEMINI_API_KEY is not set.
 """
+import json
+import logging
 import os
 import xml.etree.ElementTree as ET
 from datetime import datetime
+from pathlib import Path
 
 import requests
 from dotenv import load_dotenv
 
 load_dotenv()
 
+logger = logging.getLogger(__name__)
+
 GEMINI_API_KEY = os.getenv("GEMINI_API_KEY")
 GEMINI_MODEL   = os.getenv("GEMINI_MODEL", "gemini-2.5-flash")
 GEMINI_URL = f"https://generativelanguage.googleapis.com/v1beta/models/{GEMINI_MODEL}:generateContent"
+
+TREND_CACHE_PATH = Path("trends_cache.json")
+
+
+def load_trend_cache(ttl_hours=24):
+    """Load trend cache, evicting entries older than ttl_hours."""
+    if not TREND_CACHE_PATH.exists():
+        return {}
+    try:
+        with open(TREND_CACHE_PATH) as f:
+            raw = json.load(f)
+        cutoff = datetime.now().timestamp() - ttl_hours * 3600
+        return {k: v for k, v in raw.items() if v.get("ts", 0) > cutoff}
+    except Exception:
+        return {}
+
+
+def save_trend_cache(cache):
+    with open(TREND_CACHE_PATH, "w") as f:
+        json.dump(cache, f)
 
 
 def fetch_trends(industry):
@@ -43,7 +68,7 @@ def fetch_trends(industry):
             return f"No trend data retrieved. Focus on general {industry} opportunities."
         return candidates[0]["content"]["parts"][0]["text"].strip()
     except Exception as e:
-        print(f"  Trends fetch failed for {industry}: {e}")
+        logger.warning("Trends fetch failed for %s: %s", industry, e)
         return f"No trend data retrieved. Focus on general {industry} opportunities."
 
 
@@ -70,7 +95,7 @@ def fetch_reddit_ideas(subreddits, posts_per_sub=3):
                 snippet = post["data"].get("selftext", "")[:100].strip()
                 collected.append(f"- {title}: {snippet}" if snippet else f"- {title}")
         except Exception as e:
-            print(f"  Reddit fetch failed for r/{sub}: {e}")
+            logger.warning("Reddit fetch failed for r/%s: %s", sub, e)
 
     return "\n".join(collected) if collected else "No Reddit data available."
 
@@ -121,5 +146,5 @@ def fetch_arxiv_papers(industry, max_results=5):
 
         return "\n".join(papers) if papers else "No arXiv papers found."
     except Exception as e:
-        print(f"  arXiv fetch failed for {industry}: {e}")
+        logger.warning("arXiv fetch failed for %s: %s", industry, e)
         return "No arXiv data available."

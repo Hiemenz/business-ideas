@@ -17,14 +17,16 @@ Usage:
     python validate.py --hash ab12    # one specific idea
 """
 import argparse
-import json
+import logging
 import sys
-from pathlib import Path
 
 import requests
 
 from gemini_client import call_gemini, parse_json_block
 from idea_log import LOG_PATH, load_log, save_log
+
+logging.basicConfig(level=logging.INFO, format="%(levelname)s %(message)s")
+logger = logging.getLogger(__name__)
 
 HEADERS  = {"User-Agent": "BusinessIdeaValidator/1.0"}
 
@@ -56,7 +58,7 @@ def reddit_pain_search(query, limit=8):
         resp.raise_for_status()
         posts = resp.json()["data"]["children"]
     except Exception as e:
-        print(f"    Reddit search failed: {e}")
+        logger.warning("Reddit search failed: %s", e)
         return None
 
     titles = [p["data"]["title"][:90] for p in posts[:3]]
@@ -75,7 +77,7 @@ def hn_search(query, limit=10):
         resp.raise_for_status()
         data = resp.json()
     except Exception as e:
-        print(f"    HN search failed: {e}")
+        logger.warning("HN search failed: %s", e)
         return None
 
     hits = data.get("hits", [])
@@ -138,7 +140,7 @@ def compute_validation(reddit, hn):
 
 def validate_idea(idea_text):
     problem_q, market_q = extract_queries(idea_text)
-    print(f"    problem query: '{problem_q}'  |  market query: '{market_q}'")
+    logger.info("  problem query: '%s'  |  market query: '%s'", problem_q, market_q)
     reddit = reddit_pain_search(problem_q)
     hn     = hn_search(market_q)
     return compute_validation(reddit, hn)
@@ -169,21 +171,21 @@ def main():
             print("All ideas already validated.")
             return
 
-    print(f"\nValidating {len(targets)} idea(s)...\n")
+    logger.info("Validating %d idea(s)...", len(targets))
     for idx, row in targets.iterrows():
         title = str(row["idea"]).split("\n")[0][:80]
-        print(f"  {title}")
+        logger.info("%s", title)
         try:
             vscore, summary = validate_idea(row["idea"])
         except Exception as e:
-            print(f"    Validation failed: {e}")
+            logger.error("Validation failed: %s", e)
             continue
         df.loc[idx, "validation_score"]   = vscore
         df.loc[idx, "validation_summary"] = summary
-        print(f"    validation score: {vscore}/10 (Gemini score: {row['score']}/10)\n")
+        logger.info("  validation score: %s/10 (Gemini score: %s/10)", vscore, row["score"])
 
     save_log(df)
-    print(f"Saved to {LOG_PATH}.")
+    logger.info("Saved to %s.", LOG_PATH)
 
 
 if __name__ == "__main__":
