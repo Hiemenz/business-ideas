@@ -11,7 +11,10 @@ def post(message: str, username: str = "Pi Bot") -> bool:
     if not WEBHOOK_URL:
         return False
     payload = {"content": message, "username": username}
-    response = requests.post(WEBHOOK_URL, json=payload)
+    try:
+        response = requests.post(WEBHOOK_URL, json=payload, timeout=15)
+    except requests.RequestException:
+        return False
     return response.status_code == 204
 
 

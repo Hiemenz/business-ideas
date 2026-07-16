@@ -3,13 +3,15 @@ Falls back gracefully if GEMINI_API_KEY is not set.
 """
 import os
 import xml.etree.ElementTree as ET
+from datetime import datetime
+
 import requests
 from dotenv import load_dotenv
 
 load_dotenv()
 
 GEMINI_API_KEY = os.getenv("GEMINI_API_KEY")
-GEMINI_MODEL   = os.getenv("GEMINI_MODEL", "gemini-2.0-flash")
+GEMINI_MODEL   = os.getenv("GEMINI_MODEL", "gemini-2.5-flash")
 GEMINI_URL = f"https://generativelanguage.googleapis.com/v1beta/models/{GEMINI_MODEL}:generateContent"
 
 
@@ -19,7 +21,7 @@ def fetch_trends(industry):
         return f"No trend data available (GEMINI_API_KEY not set). Focus on general {industry} opportunities."
 
     prompt = (
-        f"Name 2 current trends in {industry} as of early 2026. "
+        f"Name 2 current trends in {industry} as of {datetime.now():%B %Y}. "
         f"One sentence each. No headers."
     )
 

@@ -10,6 +10,7 @@ __pycache__/
 embeddings.pkl
 trends_cache.json
 ratings.parquet
+dashboard.html
 
 # Local tooling
 .claude/settings.local.json

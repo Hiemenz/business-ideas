@@ -14,15 +14,14 @@ import re
 import sys
 import argparse
 
-import pandas as pd
 from pathlib import Path
 from dotenv import load_dotenv
 
 from gemini_client import call_gemini
+from idea_log import LOG_PATH, load_log, save_log
 
 load_dotenv()
 
-LOG_PATH = Path("money_making_ideas_log.parquet")
 OUTDIR   = Path("onepagers")
 
 OUTDIR.mkdir(exist_ok=True)
@@ -94,10 +93,18 @@ def generate_onepager(idea_text, score):
         "Broken into phases. Each phase has a clear milestone and deliverable.\n\n"
         "## Key Risks & Mitigations\n"
         "Top 3 risks. One concrete mitigation per risk.\n\n"
+        "## First 10 Customers\n"
+        "Name the exact communities, channels, or lists where the first 10 customers are. "
+        "Include a 2-3 sentence outreach message tailored to them. No generic advice like "
+        "'post on social media' — be specific enough to act on today.\n\n"
+        "## Cost to Validate\n"
+        "What a 2-week validation test costs in dollars and hours, what the test is, "
+        "and the specific signal that means 'continue' vs 'kill'.\n\n"
         "## Next Steps\n"
         "The first 3 actions to take this week. Be specific and actionable.\n"
     )
-    return call_gemini(prompt)
+    # A full one-pager overflows the 1024-token default and gets cut mid-sentence
+    return call_gemini(prompt, max_tokens=4096)
 
 
 def main():
@@ -110,7 +117,7 @@ def main():
         print("No ideas logged yet. Run main.py first.")
         sys.exit(0)
 
-    df      = pd.read_parquet(LOG_PATH)
+    df      = load_log()
     done    = existing_hashes()
     pending = df[~df["hash"].isin(done) & (df["score"] > 0)].sort_values("score", ascending=False)
 
@@ -125,7 +132,8 @@ def main():
 
     for _, row in pending.iterrows():
         name = extract_name(row["idea"])
-        slug = slugify(name)
+        # Hash suffix keeps same-named ideas from overwriting each other's files
+        slug = f"{slugify(name)}-{row['hash'][:8]}"
         path = OUTDIR / f"{slug}.md"
 
         print(f"  {name} (score {row['score']}/10)...")
@@ -134,6 +142,13 @@ def main():
         # Hash comment at the top so we know this idea has been expanded
         path.write_text(f"<!-- id: {row['hash']} -->\n{content}\n")
         print(f"    -> {path}")
+
+        # Advance lifecycle status (generated -> onepager); don't regress
+        # ideas that are already further along (poc/launched/killed)
+        if df.loc[row.name, "status"] in ("generated", "unscored", ""):
+            df.loc[row.name, "status"] = "onepager"
+
+    save_log(df)
 
     print(f"\nDone. One-pagers in {OUTDIR}/")
 

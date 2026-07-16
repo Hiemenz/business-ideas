@@ -1,33 +1,30 @@
-import os
 import json
 import random
 import hashlib
 from datetime import datetime
 import pickle
 from pathlib import Path
-import time
 
 import numpy as np
 import pandas as pd
-import requests
 import yaml
 from dotenv import load_dotenv
-from tenacity import retry, wait_exponential, stop_after_attempt
 
 from trends import fetch_trends, fetch_reddit_ideas, fetch_arxiv_papers
-from gemini_client import build_prompt, score_ideas
+import gemini_client
+from gemini_client import (
+    build_prompt, score_ideas, call_gemini, embed_text,
+    composite_score, EMBED_MODEL,
+)
+from idea_log import LOG_PATH, load_log, save_log
 
 load_dotenv()
 
 # ==== CONFIGURATION ====
-LOG_PATH             = Path("money_making_ideas_log.parquet")
-YAML_PATH            = Path("config.yml")
-EMBEDDING_PATH        = Path("embeddings.pkl")
+YAML_PATH      = Path("config.yml")
+EMBEDDING_PATH = Path("embeddings.pkl")
 
-GEMINI_API_KEY = os.getenv("GEMINI_API_KEY")
-GEMINI_MODEL   = os.getenv("GEMINI_MODEL", "gemini-2.0-flash")
-
-if not GEMINI_API_KEY:
+if not gemini_client.GEMINI_API_KEY:
     raise SystemExit("GEMINI_API_KEY environment variable is not set.")
 
 # ==== LOAD YAML CONFIG ====
@@ -39,38 +36,24 @@ BATCH_SIZE           = settings.get("batch_size", 5)
 SCORE_THRESHOLD      = settings.get("score_threshold", 6.0)
 SIMILARITY_THRESHOLD = settings.get("similarity_threshold", 0.85)
 ROTATION_WINDOW      = settings.get("rotation_window", 30)
-GEMINI_RPM_LIMIT     = settings.get("gemini_rpm_limit", 14)
 TREND_CACHE_TTL_HOURS = settings.get("trend_cache_ttl_hours", 24)
 
-industries     = config["industries"]
+gemini_client.set_rpm_limit(settings.get("gemini_rpm_limit", 14))
+
+industries      = config["industries"]
 business_models = config["business_models"]
-audiences      = config["audiences"]
-technologies   = config["technologies"]
-problems       = config["problems"]
-platforms      = config["platforms"]
-monetization   = config["monetization"]
-subreddits     = config.get("subreddits", [])
+audiences       = config["audiences"]
+technologies    = config["technologies"]
+problems        = config["problems"]
+platforms       = config["platforms"]
+monetization    = config["monetization"]
+subreddits      = config.get("subreddits", [])
 
 # ==== LOAD & MIGRATE LOG ====
-# New columns have defaults so existing parquet files upgrade automatically.
-DEFAULTS = {
-    "idea": "", "industry": "", "business_model": "", "hash": "",
-    "score": 0.0, "market_size": 0, "feasibility": 0,
-    "novelty": 0, "competition": 0, "trend_context": "",
-    "displayed": False, "timestamp": "",
-}
-
-if LOG_PATH.exists():
-    log_df = pd.read_parquet(LOG_PATH)
-    for col, default in DEFAULTS.items():
-        if col not in log_df.columns:
-            log_df[col] = default
-    used_industries = log_df["industry"].tolist()[-ROTATION_WINDOW:]
-    used_models     = log_df["business_model"].tolist()[-ROTATION_WINDOW:]
-else:
-    log_df          = pd.DataFrame(columns=DEFAULTS.keys())
-    used_industries = []
-    used_models     = []
+# Schema migration lives in idea_log.load_log — one place, every script.
+log_df          = load_log()
+used_industries = log_df["industry"].tolist()[-ROTATION_WINDOW:]
+used_models     = log_df["business_model"].tolist()[-ROTATION_WINDOW:]
 
 # Load persisted idea embeddings for semantic dedup
 if EMBEDDING_PATH.exists():
@@ -79,10 +62,12 @@ if EMBEDDING_PATH.exists():
 else:
     stored_embeddings = {}
 
-# Migrate old flat-list format to versioned dict format
+# Migrate old flat-list format to versioned dict format. The model that
+# produced legacy vectors is unknown, so label them as such — is_duplicate
+# additionally guards on vector dimension, so mislabeling can't crash it.
 for k, v in list(stored_embeddings.items()):
     if isinstance(v, list):
-        stored_embeddings[k] = {"model": "gemini-embedding-001", "vec": v}
+        stored_embeddings[k] = {"model": "legacy-unknown", "vec": v}
 
 
 # ==== TREND CACHE ====
@@ -106,41 +91,7 @@ def save_trend_cache(cache):
 trends_cache = load_trend_cache()
 
 
-# ==== ADAPTIVE RATE LIMITER ====
-_last_gemini_call = 0.0
-_MIN_GEMINI_INTERVAL = 60.0 / GEMINI_RPM_LIMIT  # seconds between calls
-
-def gemini_throttle():
-    global _last_gemini_call
-    elapsed = time.monotonic() - _last_gemini_call
-    if elapsed < _MIN_GEMINI_INTERVAL:
-        time.sleep(_MIN_GEMINI_INTERVAL - elapsed)
-    _last_gemini_call = time.monotonic()
-
-
 # ==== HELPERS ====
-@retry(stop=stop_after_attempt(5), wait=wait_exponential(multiplier=2, min=4, max=60))
-def call_gemini(prompt, max_tokens=1024, temperature=0.85):
-    gemini_throttle()
-    resp = requests.post(
-        f"https://generativelanguage.googleapis.com/v1beta/models/{GEMINI_MODEL}:generateContent",
-        params={"key": GEMINI_API_KEY},
-        headers={"Content-Type": "application/json"},
-        json={
-            "contents": [{"parts": [{"text": prompt}]}],
-            "generationConfig": {
-                "temperature":   temperature,
-                "maxOutputTokens": max_tokens,
-            },
-        },
-    )
-    resp.raise_for_status()
-    data = resp.json()
-    candidates = data.get("candidates", [])
-    if not candidates:
-        raise ValueError(f"Gemini returned no candidates. Response: {data}")
-    return candidates[0]["content"]["parts"][0]["text"].strip()
-
 
 def pick_combo():
     """Pick a random parameter combo, avoiding recently used industries/models."""
@@ -157,36 +108,47 @@ def pick_combo():
     }
 
 
-@retry(stop=stop_after_attempt(5), wait=wait_exponential(multiplier=2, min=4, max=60))
-def embed_text(text):
-    """Embed a single text via Gemini gemini-embedding-001."""
-    resp = requests.post(
-        "https://generativelanguage.googleapis.com/v1beta/models/gemini-embedding-001:embedContent",
-        params={"key": GEMINI_API_KEY},
-        headers={"Content-Type": "application/json"},
-        json={"content": {"parts": [{"text": text}]}},
-    )
-    resp.raise_for_status()
-    return resp.json()["embedding"]["values"]
+def is_duplicate(embedding, model=EMBED_MODEL):
+    """True if this embedding is too close to any previously seen idea (cosine sim).
 
-
-def is_duplicate(embedding, model="gemini-embedding-001"):
-    """True if this embedding is too close to any previously seen idea (cosine sim)."""
-    matching = {k: v for k, v in stored_embeddings.items()
-                if isinstance(v, dict) and v.get("model") == model}
-    if not matching:
+    Only compares against stored vectors from the same model AND with the same
+    dimensionality — mixed-dimension history would otherwise build a ragged
+    array and crash.
+    """
+    dim = len(embedding)
+    stored_vecs = [
+        v["vec"] for v in stored_embeddings.values()
+        if isinstance(v, dict) and v.get("model") == model and len(v.get("vec", [])) == dim
+    ]
+    if not stored_vecs:
         return False
-    stored_vecs = np.array([v["vec"] for v in matching.values()])
+    stored_vecs = np.array(stored_vecs)
     vec         = np.array(embedding)
     sims        = (stored_vecs @ vec) / (np.linalg.norm(stored_vecs, axis=1) * np.linalg.norm(vec))
     return float(sims.max()) > SIMILARITY_THRESHOLD
+
+
+def outcome_feedback(df, max_items=6):
+    """Summarize launched/killed ideas so generation learns from outcomes."""
+    if "status" not in df.columns or df.empty:
+        return ""
+    lines = []
+    for status, verb in (("killed", "FAILED"), ("launched", "WORKED")):
+        subset = df[df["status"] == status].tail(max_items // 2)
+        for _, row in subset.iterrows():
+            summary = str(row["idea"]).split("\n")[0][:150]
+            note = f" (reason: {row['status_note']})" if row.get("status_note") else ""
+            lines.append(f"- {verb}: {summary}{note}")
+    return "\n".join(lines)
 
 
 def main():
     # ==== MAIN: generate batch ====
     print(f"\nGenerating {BATCH_SIZE} ideas...\n")
 
+    global log_df
     ideas, combos = [], []
+    feedback = outcome_feedback(log_df)
 
     # Reddit context is the same for every idea in the batch — fetch once
     print("  Fetching Reddit ideas...")
@@ -207,8 +169,11 @@ def main():
             arxiv_cache[industry] = fetch_arxiv_papers(industry, max_results=settings.get("arxiv_max_results", 5))
 
         try:
-            idea_text  = call_gemini(build_prompt(combo, trends_cache[industry]["text"], reddit_ideas, arxiv_cache[industry]))
-            embedding  = embed_text(idea_text)
+            idea_text = call_gemini(build_prompt(
+                combo, trends_cache[industry]["text"], reddit_ideas,
+                arxiv_cache[industry], outcome_feedback=feedback,
+            ))
+            embedding = embed_text(idea_text)
         except Exception as e:
             print(f"  [{i+1}/{BATCH_SIZE}] Skipped — API error: {e}")
             continue
@@ -221,7 +186,7 @@ def main():
         combos.append(combo)
         # Store immediately so later ideas in this batch can't duplicate each other
         stored_embeddings[hashlib.md5(idea_text.encode()).hexdigest()] = {
-            "model": "gemini-embedding-001",
+            "model": EMBED_MODEL,
             "vec": embedding,
         }
         print(f"  [{i+1}/{BATCH_SIZE}] Generated")
@@ -233,42 +198,44 @@ def main():
         print(f"\nScoring {len(ideas)} idea(s)...")
         scores = score_ideas(ideas)
 
-        if scores is None:
-            print("Scoring failed — ideas not logged.")
-        else:
-            if len(scores) != len(ideas):
-                print(f"  WARNING: got {len(scores)} scores for {len(ideas)} ideas — {len(ideas) - len(scores)} idea(s) will be dropped silently")
-            new_rows = []
-            for idea, combo, score in zip(ideas, combos, scores):
-                composite = round(
-                    (score["market_size"] + score["feasibility"] +
-                     score["novelty"]     + score["competition"]) / 4, 1
-                )
+        new_rows = []
+        for idea, combo, score in zip(ideas, combos, scores):
+            if score is None:
+                print("  Score: unavailable — logged unscored (rescore later)")
+                composite, kept = 0.0, True   # keep it; scoring failed, idea didn't
+            else:
+                composite = composite_score(score)
                 kept = composite >= SCORE_THRESHOLD
                 print(f"  Score: {composite}/10 — {'kept' if kept else 'filtered out'}")
 
-                if kept:
-                    new_rows.append({
-                        "idea":           idea,
-                        "industry":       combo["industry"],
-                        "business_model": combo["business_model"],
-                        "hash":           hashlib.md5(idea.encode()).hexdigest(),
-                        "score":          composite,
-                        "market_size":    score["market_size"],
-                        "feasibility":    score["feasibility"],
-                        "novelty":        score["novelty"],
-                        "competition":    score["competition"],
-                        "trend_context":  trends_cache[combo["industry"]]["text"],
-                        "displayed":      False,
-                        "timestamp":      datetime.now().isoformat(),
-                    })
+            if kept:
+                s = score or {}
+                new_rows.append({
+                    "idea":           idea,
+                    "industry":       combo["industry"],
+                    "business_model": combo["business_model"],
+                    "hash":           hashlib.md5(idea.encode()).hexdigest(),
+                    "score":          composite,
+                    "market_size":    s.get("market_size", 0),
+                    "feasibility":    s.get("feasibility", 0),
+                    "novelty":        s.get("novelty", 0),
+                    "competition":    s.get("competition", 0),
+                    "trend_context":  trends_cache[combo["industry"]]["text"],
+                    "displayed":      False,
+                    "timestamp":      datetime.now().isoformat(),
+                    "status":         "generated" if score else "unscored",
+                    "status_note":    "",
+                    "user_rating":    np.nan,
+                    "validation_score":   np.nan,
+                    "validation_summary": "",
+                })
 
-            if new_rows:
-                log_df = pd.concat([log_df, pd.DataFrame(new_rows)], ignore_index=True)
-                log_df.to_parquet(LOG_PATH, index=False)
-                print(f"\n  {len(new_rows)} idea(s) logged to {LOG_PATH}")
-            else:
-                print(f"\n  All ideas scored below {SCORE_THRESHOLD}/10 — nothing logged.")
+        if new_rows:
+            log_df = pd.concat([log_df, pd.DataFrame(new_rows)], ignore_index=True)
+            save_log(log_df)
+            print(f"\n  {len(new_rows)} idea(s) logged to {LOG_PATH}")
+        else:
+            print(f"\n  All ideas scored below {SCORE_THRESHOLD}/10 — nothing logged.")
 
     save_trend_cache(trends_cache)
 

@@ -118,6 +118,15 @@ def render_idea(idea_text, output_path="idea.png", score=None):
         bbox  = draw.textbbox((0, 0), badge, font=f_score)
         draw.text((WIDTH - MARGIN - (bbox[2] - bbox[0]), y), badge, fill="black", font=f_score)
 
+    # --- fallback: no recognized ## sections -> render the raw text ---
+    # (older log entries predate the structured format; a blank card helps no one)
+    if not sections:
+        draw.text((x, y), "BUSINESS IDEA", fill="black", font=f_title)
+        y += 52
+        _draw_wrapped(draw, idea_text, x, y, f_body, content_width, bottom)
+        img.save(output_path)
+        return output_path
+
     # --- Business Idea: name + description ---
     # GPT often returns "Name — description" on one line; split so the name
     # stays big and the description wraps cleanly below it.
