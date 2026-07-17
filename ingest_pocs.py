@@ -20,9 +20,8 @@ from pathlib import Path
 import pandas as pd
 from dotenv import load_dotenv
 
-import gemini_client
 from gemini_client import score_ideas, composite_score
-from idea_log import load_log, save_log, LOG_PATH
+from idea_log import load_log, save_log
 
 load_dotenv()
 logging.basicConfig(level=logging.INFO, format="%(levelname)s %(message)s")

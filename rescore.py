@@ -10,7 +10,6 @@ import logging
 
 from dotenv import load_dotenv
 
-import gemini_client
 from gemini_client import score_ideas, composite_score
 from idea_log import load_log, save_log, idea_title, LOG_PATH
 
