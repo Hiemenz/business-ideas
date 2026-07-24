@@ -22,6 +22,7 @@ DEFAULTS = {
     "status": "generated", "status_note": "",
     "user_rating": np.nan,
     "validation_score": np.nan, "validation_summary": "",
+    "source_file": "",
 }
 
 STATUSES = ["generated", "unscored", "onepager", "poc", "launched", "killed"]
