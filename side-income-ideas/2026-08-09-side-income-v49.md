@@ -1,0 +1,54 @@
+# Side Income Ideas - 2026-08-09 (Session 49)
+
+## Who this is for
+Simple, fast-to-build operational tracker tools for self-employed operators and micro-businesses — not compliance software, just practical day-to-day workflow tools that replace spreadsheets and sticky notes. Each idea targets a distinct type of self-employed operator not already covered in this repo.
+
+## Ground rules for every idea in this series
+- Simple, fast-to-build workflow trackers — no regulatory compliance angle.
+- Monetization stated per account with a named distribution channel.
+- Time to first dollar under 5 weeks.
+- **No repeats.** This session's six operator types — independent electricians, independent plumbers, independent house painters, freelance graphic designers, private-practice pediatric speech-language pathologists, and independent interior designers — are distinct from every prior session: electrical contracting has never appeared (the closest prior ideas, Remodeling Contractor Change Order Request Generator in Session 22 and Roofing Contractor Insurance Supplement Checklist Generator in Session 27, cover general remodeling change-order paperwork and storm-damage insurance claims respectively, neither of which touches an electrician's permit-to-inspection pipeline or per-job wire/material tracking); plumbing has never appeared (a distinct trade from either prior idea, centered on fixture/water-heater warranty tracking no other idea addresses); house painting has never appeared; freelance graphic design has never appeared (the closest prior idea, Freelance Illustrator Project Brief & Revision Round Tracker in Session 29, covers custom illustration commissions and their revision cycles, an entirely different deliverable type from brand-identity/logo design work, which needs a persistent brand-asset library — color codes, font licenses, logo file variants — that an illustration commission tracker has no reason to maintain); private-practice pediatric speech-language pathology has never appeared (the closest prior ideas, Private Therapy Practice Client Waitlist & New Patient Inquiry Tracker in Session 36 and Lactation Consultant (IBCLC) Client Visit & Insurance Superbill Generator in Session 43, cover mental-health practice intake/waitlist management and lactation-consultant visit documentation respectively — neither tracks SLP-specific articulation/language treatment goals or the CPT codes an SLP superbill requires); and interior design has never appeared (the closest prior idea, Home Staging Business Prop Inventory & Deployment Tracker in Session 36, covers temporary furniture placement inventory for a property sale, a fundamentally different service from a full design project's vendor purchase orders, budget-vs-spend tracking, and room-by-room specification sheets that span months of procurement).
+
+---
+
+### 1. Independent Electrician Job Estimate, Permit & Inspection Scheduling Tracker
+Independent electricians juggling multiple job sites need to track each job's electrical permit status — pulled, inspection scheduled, passed or failed — alongside the materials and wire gauge actually used per job, because a callback six months later on a job that failed a rough-in inspection and was never rescheduled is a liability problem, and a general contractor asking "is the permit closed on the Foster Street job" needs an answer faster than digging through paper permit stubs. Most independent electricians currently track permit status on the permit stub itself, sitting in a truck console, disconnected from any record of what happens if that inspection gets rescheduled or fails.
+
+The tool maintains a per-job record (address, scope of work, permit number and status, inspection date and result, materials and wire gauge used, and price), a permit-to-inspection pipeline view flagging any job whose inspection hasn't been scheduled or whose failed inspection hasn't been rescheduled, and a callback/warranty log tied to each job's material record so a callback can be diagnosed against exactly what was installed.
+
+Monetization: $19-29/mo per electrician account. Distribution: r/electricians, Electrical Contractor Facebook groups, and local independent electrical contractor associations. Time to first dollar: 2-3 weeks.
+
+### 2. Independent Plumber Job Ticket, Parts & Warranty Tracker
+Independent plumbers need a per-property history of fixtures and equipment installed — especially water heater make, model, and serial number — because a callback fourteen months after a water heater install requires the exact unit serial and install date to file a manufacturer warranty claim, and repipe or gas-line jobs carry their own permit-and-inspection requirements a plumber otherwise tracks on the same loose permit stub as everything else. Most independent plumbers currently reconstruct this from old invoices or a customer's memory when a warranty issue comes up, often losing the manufacturer claim window in the process.
+
+The tool maintains a per-property plumbing profile (fixtures, water heater make/model/serial/install date, and past repair history), a job ticket log (parts used, permit number where applicable, and price), and a warranty expiration tracker per installed unit that flags when a customer's water heater or appliance warranty is approaching its end — both protecting the plumber's own claim window and creating a natural upsell moment.
+
+Monetization: $19-29/mo per plumber account. Distribution: r/Plumbing, PHCC (Plumbing-Heating-Cooling Contractors Association) local chapter outreach, and independent plumber Facebook groups. Time to first dollar: 2-3 weeks.
+
+### 3. Independent House Painter Job Estimate, Paint Formula & Crew Schedule Tracker
+Independent residential and commercial painters need to record the exact paint formula, brand, and sheen mixed for every room at every client property, because a touch-up request two years later is impossible to match correctly from memory, and they need to track estimated versus actual paint quantity used per job so future bids get more accurate rather than staying a rough guess forever. Painters running a small crew also need to know which crew is on which job today and which jobs are actually complete versus still in progress, since a missed coat or an unfinished trim detail discovered by the client after the crew has moved to the next job is a reputation problem.
+
+The tool maintains a per-property paint record (room-by-room color, sheen, brand, and formula code), a job estimate-vs-actual materials log that improves future bid accuracy over time, and a crew schedule and job status board showing which crew is assigned to which job and whether each job is complete.
+
+Monetization: $15-25/mo per painter/company account. Distribution: r/Painting, PDCA (Painting and Decorating Contractors of America) local chapter directories, and local painting contractor Facebook groups. Time to first dollar: 2-3 weeks.
+
+### 4. Freelance Graphic Designer Client Brand Asset, Revision Round & Delivery Tracker
+Freelance graphic designers running logo, brand-identity, and marketing-collateral projects across multiple clients need to track each project's revision-round count against the number contracted, so unpaid extra revisions don't quietly creep past the agreed scope, and need a persistent brand-asset library per client — logo file variants, color hex/Pantone codes, and font names with license type — because a client emailing eight months later for "the brand file" shouldn't require reconstructing everything from scattered old email threads. Most freelance designers currently manage this across a project-management tool built for generic task tracking and a folder structure that drifts out of sync with what was actually delivered.
+
+The tool maintains a per-client brand asset library (logo files, color codes, font names and license type), a project revision tracker (round count used against the contracted limit, with each round's feedback and the deliverable version it produced), and a final-delivery checklist confirming every file format and handoff item was sent before a project is marked complete.
+
+Monetization: $15-25/mo per designer account. Distribution: r/graphic_design, r/freelance, Freelance Designers Facebook groups, and AIGA local chapter directories. Time to first dollar: 2-3 weeks.
+
+### 5. Pediatric Speech-Language Pathologist Private Practice Client Goal & Insurance Superbill Tracker
+Private-pay and out-of-network pediatric speech-language pathologists seeing 15-25 kids a week need to track each client's current treatment goals — articulation targets, language milestones, baseline versus current performance — and tie session notes directly to the goals worked on that day, because losing track of which goal was last updated for which child undermines the individualized treatment plan parents are paying for. They also need to generate CPT-coded superbills (e.g., 92507, 92523) that parents submit to their insurance for out-of-network reimbursement, which most solo SLPs currently retype by hand for every single session.
+
+The tool maintains a per-client goal sheet (current targets and baseline-vs-current performance), a session note log tied to the specific goals addressed in that session, and a superbill generator that pulls the CPT code, diagnosis code, session date and duration, and rate into a parent-ready reimbursement document.
+
+Monetization: $25-39/mo per SLP account. Distribution: ASHA (American Speech-Language-Hearing Association) private practice member forums, r/slp, and Private Practice SLP Facebook groups. Time to first dollar: 3-4 weeks.
+
+### 6. Independent Interior Designer Client Project, Vendor PO & Budget Tracker
+Interior designers managing full residential or commercial design projects need to track a client's overall project budget against actual committed spend across dozens of vendor purchase orders — furniture, fixtures, fabric — and the lead time and expected delivery date for each ordered item, because a client shouldn't be surprised eight months in that the sofa they approved takes sixteen weeks to arrive. A designer running four to eight concurrent projects also needs a running room-by-room selections sheet, since "what did we actually spec for the primary bedroom" is a question that comes up long after the initial mood board is forgotten.
+
+The tool maintains a per-project budget tracker (client budget versus cumulative committed spend by category), a vendor purchase order log (item, vendor, cost, lead time, and expected/actual delivery date), and a room-by-room selections and spec sheet (item, vendor, SKU, price, and status).
+
+Monetization: $29-49/mo per designer account. Distribution: ASID (American Society of Interior Designers) local chapter directories, r/InteriorDesign, and Interior Designer Facebook groups. Time to first dollar: 3-4 weeks.
