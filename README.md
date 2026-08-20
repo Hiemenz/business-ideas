@@ -194,6 +194,71 @@ Cron to refresh the display every morning at 8am:
 
 ---
 
+## Idea-discovery loop (Claude Code)
+
+Separate from the Python/Gemini pipeline above, this repo also accumulates freeform
+idea-discovery markdown written by Claude Code itself, in three parallel series:
+
+```
+discovered-problems/   — broad business-problem discovery by sector, unscored
+side-income-ideas/     — solo-buildable side income ideas, $500-3K/mo ceiling
+main-income-ideas/     — solo-buildable ideas with a credible path to $8-15K+/mo,
+                          i.e. ideas that could realistically replace a full-time salary
+```
+
+Each series runs as a **recurring local loop, every 5 hours** (`0 */5 * * *`), started
+with the `CronCreate` tool inside a Claude Code session. These jobs are session-only —
+they die when the session ends and auto-expire after 7 days regardless — so the loop
+needs to be re-armed periodically. To restart the `main-income-ideas/` loop, start a
+Claude Code session in this repo and ask it to schedule a recurring job with this prompt:
+
+> Run the recurring main-income idea discovery session for the `business-ideas` repo.
+>
+> **Builder profile:** 29, software engineering + data analytics skills. Goal is
+> different from the existing `side-income-ideas/` series: not "$500-3K/mo of side
+> money" but a solo-buildable path that can realistically replace a full-time salary
+> (**$8-15K+/mo**) within 12-24 months if it works. Still has to start small,
+> evenings/weekends, no funding, no cofounder.
+>
+> **Steps:**
+> 1. List `main-income-ideas/` and find the highest existing `vN` file and its date
+>    (if the directory is empty, this is v1).
+> 2. Skim filenames/titles in `main-income-ideas/`, `side-income-ideas/`, and
+>    `discovered-problems/` to build a mental list of concepts already covered — every
+>    idea in this run must be a genuinely new sector/concept, not a repeat.
+> 3. Write a new file `main-income-ideas/YYYY-MM-DD-main-income-vN.md` (today's date,
+>    next session number) with 4-6 ideas, in the same structural style as
+>    `side-income-ideas/*.md`, but scored against main-income ground rules instead of
+>    side-income ones:
+>    - **Solo-buildable start.** One person, evenings/weekends, no funding, no
+>      cofounder required to get the first version live.
+>    - **Realistic path to $8-15K+/mo**, not a side-money ceiling — state what that
+>      scale actually requires (customer count x price point) plainly, no TAM
+>      hand-waving.
+>    - **Time to first dollar < 90 days.** Long enterprise sales cycles are
+>      disqualifying by default.
+>    - **Named distribution channel** for the first 10 customers AND a credible path
+>      to the next 10x (the part that turns "side" into "main").
+>    - **Boring is fine.** Low-glamour, real-pain problems beat trendy ones.
+>    - **No repeats** of anything already covered across `main-income-ideas/`,
+>      `side-income-ideas/`, or `discovered-problems/`.
+>    - Each idea needs: Problem, What to build, Skill fit, MVP scope, Time to first $,
+>      Income ceiling (realistic, with the math), Why this can go beyond side money,
+>      Biggest risk, Growth path (side project → replaces-salary stage by stage).
+> 4. Add a scoring summary table and a "This session's pick" section explaining which
+>    idea has the clearest path to full-time income and why.
+> 5. End the file with a line: `Cron Loop: 0 */5 * * *` continues.
+> 6. Do not touch `side-income-ideas/` or `discovered-problems/` — this is a separate
+>    series. Do not commit or push (these files stay local/uncommitted like the rest
+>    of the series unless the user asks otherwise).
+
+If you'd rather it run unattended in the cloud (independent of this machine staying
+on), commit and push these directories first, then create a claude.ai routine
+(`/schedule`) pointed at this repo with the same prompt — cloud routines poll a fresh
+GitHub checkout, so they can't see local uncommitted files.
+
+---
+
 ## Notes
 
 - **Reddit 403s** — Reddit blocks unauthenticated requests from some networks. Validation scores normalize to the sources that responded, so this degrades gracefully.

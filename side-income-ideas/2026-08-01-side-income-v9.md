@@ -1,0 +1,19 @@
+# Side Income Ideas - 2026-08-01 (Round 9)
+
+### 1. Independent Music Teacher Studio Scheduling & Recital Planner
+A scheduling and billing app built specifically for private music teachers: recurring lesson slots with auto-invoicing, makeup lesson credit tracking, a parent communication portal, and a recital planning module (performance order, program PDF generator, RSVP tracking). Monetization: $25-45/mo per teacher. Distribution: music teacher associations (MTNA chapters), Facebook groups for piano/guitar/violin teachers, and music school owner communities. Time to first dollar: 3-5 weeks.
+
+### 2. Hunting & Fishing License + Season Tracker App
+Hunters and anglers manage a complex tangle of licenses, tags, stamps, and season dates across multiple species and sometimes multiple states — all with hard legal deadlines. This app stores each license with expiration alerts, displays season open/close dates by species and zone from state wildlife agency feeds, and logs harvest records (bag limit tracking). Monetization: $4-9/mo subscription or $19 one-time. Distribution: r/hunting, r/fishing, hunting/fishing Facebook groups, and state hunting forum communities. Time to first dollar: 2-4 weeks.
+
+### 3. Small Florist Order & Event Flower Delivery Manager
+A lightweight ops tool for independent florists: daily order queue with arrangement notes and delivery windows, a driver route sheet generator, event (wedding/funeral) project tracker with floral recipe and cost breakdown, and supplier order reminders keyed to upcoming event dates. Monetization: $30-55/mo per florist. Distribution: Florist Association of America local chapters, florist Facebook groups, and cold outreach to independent shops on Google Maps. Time to first dollar: 3-5 weeks.
+
+### 4. Contractor CE Credit & License Renewal Tracker
+Tradespeople — electricians, plumbers, HVAC technicians, general contractors — must complete continuing education hours and renew their state contractor licenses on schedules that vary by state, license type, and specialty endorsement. This app tracks each license's renewal deadline, remaining CE hours needed, and accepted CE providers, with alerts timed to state-specific early renewal windows. Monetization: $12-25/mo or $79/yr. Distribution: trade association newsletters, contractor supply house community boards, r/electricians and r/HVAC. Time to first dollar: 3-4 weeks.
+
+### 5. Amateur Radio (Ham Radio) Logging & License Upgrade Tracker
+Ham radio operators log every contact (callsign, frequency, mode, signal report) for contest submissions and award confirmations (DXCC, WAS), and track their upgrade path through Technician → General → Extra class license exams. This app combines a contact logger with a built-in award-progress tracker and exam study progress dashboard, filling a gap between clunky legacy desktop logging software and a modern mobile-first tool. Monetization: $5-12/mo or $39 one-time; annual renewals. Distribution: r/amateurradio, ARRL club mailing lists, ham radio YouTube creator audiences. Time to first dollar: 4-6 weeks.
+
+### 6. Independent Bookkeeper Client Portal & Deliverable Tracker
+Independent bookkeepers juggle monthly close checklists, client document requests, and deliverable deadlines for 5-20 clients simultaneously using a mix of email and spreadsheets. This app gives each client a branded portal for document upload (bank statements, receipts), tracks the bookkeeper's monthly close checklist per client, generates a "books are closed" delivery confirmation, and handles recurring invoice scheduling. Monetization: $35-65/mo per bookkeeper. Distribution: bookkeeper professional communities (Bookkeeper Launch alumni, AIPB forums), QuickBooks ProAdvisor groups, and accounting software community forums. Time to first dollar: 3-5 weeks.
