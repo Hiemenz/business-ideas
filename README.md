@@ -42,7 +42,7 @@ main.py → validate.py → onepager.py → landing.py
 
 ## Prerequisites
 
-- Python 3.10+, Poetry
+- Python 3.10+, [uv](https://docs.astral.sh/uv/)
 - A Google Gemini API key (free tier at [ai.google.dev](https://ai.google.dev))
 
 No other API keys are required. Reddit and arXiv use public endpoints. Discord is optional.
@@ -56,7 +56,7 @@ No other API keys are required. Reddit and arXiv use public endpoints. Discord i
 ```bash
 git clone https://github.com/Hiemenz/business-ideas
 cd business-ideas
-poetry install
+uv sync
 ```
 
 ### 2. Configure secrets
@@ -73,37 +73,37 @@ Scripts auto-load `.env` via python-dotenv. The default model is `gemini-2.5-fla
 Generate and score ideas:
 
 ```bash
-poetry run python main.py
+uv run python main.py
 ```
 
 Fetch external validation for the top 3 unvalidated ideas:
 
 ```bash
-poetry run python validate.py --top 3
+uv run python validate.py --top 3
 ```
 
 Expand top ideas into one-pagers (saved to `onepagers/`):
 
 ```bash
-poetry run python onepager.py --top 3
+uv run python onepager.py --top 3
 ```
 
 Build a waitlist landing page for the best idea (saved to `landing_pages/`):
 
 ```bash
-poetry run python landing.py
+uv run python landing.py
 ```
 
 Review and track the portfolio:
 
 ```bash
-poetry run python status.py list
-poetry run python status.py set ab12cd34 killed --note "no search demand"
-poetry run python status.py set ab12cd34 poc
+uv run python status.py list
+uv run python status.py set ab12cd34 killed --note "no search demand"
+uv run python status.py set ab12cd34 poc
 
-poetry run python dashboard.py      # writes dashboard.html
-poetry run python digest.py         # weekly summary; posts to Discord if configured
-poetry run python ratings.py        # score calibration report
+uv run python dashboard.py      # writes dashboard.html
+uv run python digest.py         # weekly summary; posts to Discord if configured
+uv run python ratings.py        # score calibration report
 ```
 
 ### 4. Automate with cron
@@ -123,7 +123,7 @@ poetry run python ratings.py        # score calibration report
 Set `DISCORD_BOT_TOKEN` in `.env`, then:
 
 ```bash
-poetry run python discord_bot.py
+uv run python discord_bot.py
 ```
 
 Commands: `!idea` (generate), `!rate <hash> <1-5>` (rate an idea), `!top` (top-scored), `!status <hash> <status>`.

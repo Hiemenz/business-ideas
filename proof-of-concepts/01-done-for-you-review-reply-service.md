@@ -32,7 +32,7 @@ Local businesses with 1–5 locations, 20+ reviews/month, no dedicated marketing
 
 - Google Business Profile API (free) for pulling reviews once you're past the manual-access phase.
 - Claude/Gemini API for draft generation (near-$0 at this volume — pennies per review).
-- Simple cron or scheduled script (Poetry env already set up in this repo) to poll for new reviews every few hours.
+- Simple cron or scheduled script (uv env already set up in this repo) to poll for new reviews every few hours.
 - Stripe for recurring billing.
 
 ## Go-to-Market — First 5 Customers, Zero Ad Spend
