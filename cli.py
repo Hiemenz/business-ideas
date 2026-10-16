@@ -11,6 +11,9 @@ Usage:
     ideas digest [--days N]     # weekly summary
     ideas dashboard             # regenerate dashboard.html
     ideas ratings               # score calibration report
+    ideas rescore [--all]       # rescore ideas with score=0 or status=unscored
+    ideas ingest [--dry-run]    # load proof-of-concepts/*.md into the log
+    ideas pursue [--top N]      # rank PoCs by pursuit priority
 """
 import subprocess
 import sys
@@ -27,6 +30,9 @@ COMMANDS = {
     "digest":    "digest.py",
     "dashboard": "dashboard.py",
     "ratings":   "ratings.py",
+    "rescore":   "rescore.py",
+    "ingest":    "ingest_pocs.py",
+    "pursue":    "pursue.py",
 }
 
 
