@@ -1188,3 +1188,54 @@ Free-to-paid listing conversion, redeemed visits per paid listing, cost per visi
 - Whether to launch Date Night Club before or after the married-date-night track proves out.
 - Whether featured listings are monthly, per-visit or a mix.
 - The sponsored-share cap (1 in 3 is an assumption to test).
+
+---
+
+## Badge Counts for Businesses: "How Many People Earned Your Badge"
+
+Businesses can see how many people earned a badge tied to their location. It is the simplest proof the app sends real visitors, and it makes a paid listing easy to justify.
+
+### What the business sees
+- **Total badge earners:** "1,284 people have earned the Corner Bakery badge."
+- **Over time:** Earners per week and per month, with a trend line and a comparison to the previous period.
+- **By cohort (aggregate):** Share of earners who are young families, couples, older adults, foodies and so on, so the business knows who is visiting.
+- **Repeat earners:** How many came back for a second or third badge level.
+- **Photo-hunt completions:** How many finished the scavenger hunt at the location.
+- **Redeemed offers:** Badge earners who also redeemed a code or bundle.
+- **Estimated value:** Badge earners multiplied by the business's average ticket, labeled as an estimate.
+- **Share of the series:** For trail or district badges, how many earners also visited the neighboring businesses.
+
+### What the business does **not** see
+- Names, photos, contact details or visit histories of individual users, unless a user chooses to share (for example by claiming an offer with their email).
+- Exact counts for tiny groups. Hide any breakdown with fewer than 10 people (assumption), so no one can be identified from a small cohort.
+- Where else a user goes, or any other badges they hold.
+
+### What users see
+- **Social proof on the badge:** "1,284 people have earned this" on each badge page. Show it only once the number is meaningful (for example 25+), and do not display counts for brand-new badges.
+- **Rarity tiers (optional):** "Common," "Uncommon," "Rare" badges, based on how many have earned them.
+- **Opt-in recognition:** Users can choose to appear on a public "recent earners" list by first name and neighborhood. Off by default.
+
+### How it fits the business model
+- **Included in every featured listing:** A monthly badge-count report. Free listings see only a simple total, which gives them a reason to upgrade.
+- **Sponsored badges:** Pricing can include a guaranteed minimum ("at least 100 earners, or the next month is free"), which gives the pilot guarantee a clear measure.
+- **Case-study asset:** "412 families earned our badge in 90 days" is useful in sales and in the business's own marketing, with permission and an aggregate number only.
+
+### Rules to keep the count honest
+- **Only verified earners count:** Badges earned with a redeemed code, QR scan or a photo that passed review count in the headline number. Unverified self-reports are shown separately or not at all.
+- **Duplicate and fraud filters:** One earner per person per badge level, with limits on repeated claims and suspicious patterns.
+- **Same number for everyone:** The business sees the same figure users see, and the app never inflates it.
+- **Show earners vs. visits:** Clearly separate "people who earned the badge" from "total visits."
+
+### Privacy and rules (practical flags, confirm with a lawyer)
+- Use aggregate reporting by default, with a minimum group size before any breakdown appears.
+- Do not reveal sensitive attributes. Cohort labels like "older adults" or "young families" should be broad, and a business should never see health, relationship or family details.
+- Say in the privacy policy that businesses receive aggregate badge counts.
+- Never give a business user-level data without explicit opt-in per business.
+
+### Metrics
+Badge earners per listing per month, share of verified earners, repeat-earner rate, offer redemption among earners, listing renewal rate for businesses that view their report, and the number of businesses citing badge counts in their own marketing.
+
+### Open decisions
+- The minimum count before showing "X people earned this" (25 is an assumption).
+- The minimum group size for cohort breakdowns (10 is an assumption).
+- Whether free listings see a total, a rounded range or nothing.
