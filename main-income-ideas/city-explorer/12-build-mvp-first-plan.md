@@ -150,3 +150,92 @@ Rule for matching v0.1: filter plans by season, age range, budget and distance, 
 | Good if | You enjoy building, and the code is reusable | You want fast proof before investing |
 
 **A middle path you can still use:** Send the first plan to 10 friends by text in week 1 while you build. It costs almost nothing and tests the idea long before the app is ready.
+
+---
+
+## What's Working: The Weekly Review
+
+How to tell, week by week, whether Outly is doing its job. Measure what people do, not what they say. Numbers marked (assumption) are starting targets to adjust with real data.
+
+### The five numbers to check each week
+
+| Question | Number | Healthy sign (assumption) |
+|---|---|---|
+| Do they open it? | Weekly notification open rate | 50%+ |
+| Is the plan good enough to commit to? | Lock-in rate | 35%+ |
+| Does it get them out the door? | Went rate among locked plans | 50%+ |
+| Is it becoming a habit? | Users active 4 weeks in a row | Half of users |
+| Is it annoying? | Opt-out rate per send | Under 2% |
+
+If you track only one, track **"went."** It is the only number that shows the app does its job. The others explain why it is not.
+
+### 30-minute weekly review
+
+1. Update the five numbers and compare them with last week.
+2. Pick the **weakest** number. Ignore the rest this week.
+3. Look at the 5 plans with the highest and lowest lock-in. What do the good ones share (cost, distance, time of day, age range)?
+4. Read every reply and swap reason. "Too far" and "wrong age" are free product direction.
+5. Call or text 2 users who went and 2 who did not. Ask one question: "What decided it?"
+6. Write one change for next week, and only one, so you can tell if it worked.
+
+### Cuts to look at
+
+- Plan type: outdoor vs. indoor, free vs. paid, morning vs. afternoon
+- Child age range and neighborhood
+- Channel: email vs. text vs. push
+- Send day and time
+- Venue: visits through each code word
+
+### Signals that it is working
+
+- Parents forward the invite link without being asked
+- They reply GOING on their own, or ask for more
+- Users in week 4 do at least as well as users in week 1
+- A venue asks to be featured again
+
+### Signals that it is not, even if sign-ups look good
+
+| Pattern | What it usually means |
+|---|---|
+| High opens, low lock-ins | Plans look good but are not actionable |
+| High lock-ins, low went rate | Plans fall apart on the day (timing, weather, distance) |
+| Sign-ups from one group post, then silence | Curiosity, not need |
+| Many swaps of the same type | The matching rule is off for that audience |
+| Opt-outs jump after a certain plan | That plan type or send time is wrong |
+
+### Results sheet (one row per user per week)
+
+| Column | Example |
+|---|---|
+| user_id | 014 |
+| week | 2026-W49 |
+| cohort tag | parent, kids 3-5, Eastside |
+| channel | email |
+| plan_id | 7 |
+| opened | Y |
+| action | locked |
+| invited | Y |
+| went | Y |
+| would repeat | Y |
+| code word used | N |
+| swap reason | |
+| notes | "loved the playground, a bit far" |
+
+### Weekly summary block (fill in every Monday)
+
+```
+Week: ____    Active users: ___    Sends: ___
+Open rate: __%    Lock-in: __%    Went: __%    Opt-outs: __%
+Weakest number: ______
+Best plan: ______ (why: ______)
+Worst plan: ______ (why: ______)
+What users said: ______
+One change for next week: ______
+Pivot trigger hit? (see pivot rules)  Y / N
+```
+
+### Caveats
+
+- **Small numbers mislead.** With 30 users, 3 people move a rate by 10 points. Look at 3-4 week trends and use interviews to explain the numbers.
+- **"Went" is self-reported.** Compare it with venue code counts when you have them.
+- **One change at a time.** Changing several things per week hides what worked.
