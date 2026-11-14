@@ -2,6 +2,8 @@
 
 [Overview](../2026-11-14-city-explorer-badges-app.md)
 
+> **Note (2026-11-14):** The chosen route is to build the MVP first. See `12-build-mvp-first-plan.md`. This manual playbook stays as a fallback and as the source of scripts, place-sheet columns and the plan template.
+
 **Product:** One notification a week with a complete weekend plan for parents of kids 0-8. One tap locks it in and texts the other parent.
 
 **Goal of the MVP:** Prove that parents go out more when they get a finished plan than when they get an idea. Nothing else.

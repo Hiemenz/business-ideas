@@ -176,6 +176,7 @@ This overview is the short version. Detail sits in separate files under `city-ex
 | File | What it covers | Priority |
 |---|---|---|
 | [01-focus-and-4-week-plan.md](city-explorer/01-focus-and-4-week-plan.md) | The one launch product and a 4-week test | **Start here** |
+| [12-build-mvp-first-plan.md](city-explorer/12-build-mvp-first-plan.md) | **Chosen route:** build Outly v0.1 first, then test and pivot | **Start here (build-first)** |
 | [02-gaps-and-solutions.md](city-explorer/02-gaps-and-solutions.md) | Economics, data, venues, privacy, safety | Read before building |
 | [03-cohorts.md](city-explorer/03-cohorts.md) | Life-stage cohorts and missing cohorts | Later |
 | [04-older-adults-cohort.md](city-explorer/04-older-adults-cohort.md) | Adults 55+ | Later |
