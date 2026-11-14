@@ -20,6 +20,7 @@ The full concept is too big for one person. This page picks **one launch product
 - A spreadsheet with 60 hand-checked kid-friendly places and 10 date-night plans in one cluster. Check hours, stroller access, changing tables and nap-friendly timing by phone or visit.
 - A text or email tool for the weekly send. Start by hand if under 30 people.
 - A shared inbox or phone number for replies.
+- A one-page "suggest a place or idea" form feeding the same spreadsheet (see `10-host-locations-and-idea-submissions.md`). It costs nothing and starts building the database from day one.
 
 ## The 4 weeks
 

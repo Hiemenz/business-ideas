@@ -172,6 +172,7 @@ This overview is the short version. Detail sits in separate files under `city-ex
 | [07-date-ideas-bank.md](city-explorer/07-date-ideas-bank.md) | Date ideas by stage, season and budget | Content source |
 | [08-date-tracks-and-club.md](city-explorer/08-date-tracks-and-club.md) | Dating, married date nights, Date Night Club | Later |
 | [09-business-listings-and-badge-counts.md](city-explorer/09-business-listings-and-badge-counts.md) | Paid listings and badge analytics | Venue revenue |
+| [10-host-locations-and-idea-submissions.md](city-explorer/10-host-locations-and-idea-submissions.md) | Host venues for matchmaking and a way for anyone to submit places and ideas | Submission form is cheap, start in week 1 |
 | [archive-date-spots.md](city-explorer/archive-date-spots.md) | Superseded date-spots idea | Archive |
 
 Related: [parent marketing plan](2026-11-14-city-explorer-parent-marketing-plan.md) and [matchmaking business](2026-11-14-matchmaking-business.md).
