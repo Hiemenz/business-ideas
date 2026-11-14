@@ -87,6 +87,6 @@ The joke: the phone is how you find the plan, and the plan gets you off the phon
 
 ## Open decisions
 
-- Final name (recommended: Weekendly, alternate: Passport).
+- Whether to keep Outly after the trademark, domain and app-store checks (fallbacks: Gone Out, Go Do, Outsy, One Ping).
 - Whether the tagline is one phrase or two short ones.
 - Whether to test the tagline with older adults before committing.
