@@ -2,7 +2,37 @@
 
 [Overview](../2026-11-14-city-explorer-badges-app.md) | [MVP playbook](01-focus-and-4-week-plan.md)
 
-**Status:** Tagline proposed. Name not chosen yet. Working name: **Weekendly** (recommended, not final). Nothing here has been checked for domains, app-store names or trademarks.
+**Status:** Name chosen: **Outly**. Tagline proposed: **"Hang up and hang out."** Chosen on 2026-11-14 after a quick web search showed other apps use the same name (see "Name conflicts" below). A trademark search, domain check and app-store check are still to do.
+
+**Working lockup:** Outly: Hang up and hang out.
+
+## Decision: Outly
+
+Picked for its short, friendly sound and the "-ly" ending that suggests something regular and easy. It works across ages and does not rely on slang.
+
+### Name conflicts found (quick web search, not a trademark search)
+
+| Existing | What it is | Risk |
+|---|---|---|
+| Outly (outdoor mapping app) | Free app for saving spots and offline maps for hiking and swimming trips | Same name, nearby category |
+| Outly (restaurant discovery app) | Newer iPhone app for finding restaurants and sharing meals | Same name, nearby category |
+| Outly (nightlife guide) | Crunchbase listing for an app on the party and music scene | Same name, status unclear |
+| Outerly | Social app for meeting people to get outdoors with | One letter away, very similar space |
+
+**What this means:** App stores may allow a duplicate name, but search results and brand confusion are real risks, and a trademark owner could object if either product grows. Outerly is the closest look-alike.
+
+### To do before spending money on a logo, domain or ads
+1. Run a trademark search for "Outly" in the relevant classes (mobile software, event and activity information) in your country, and ask a trademark attorney to review it.
+2. Check domains (outly.com, outly.app, getoutly.com, tryoutly.com, outly.co) and social handles.
+3. Check the App Store and Google Play for the exact name and for sound-alikes.
+4. Ask 10 parents what they think "Outly" does and whether they would confuse it with other apps.
+5. Keep a fallback name ready: Gone Out, Go Do, Outsy or One Ping (none searched yet).
+
+### Ways to reduce confusion if you keep it
+- Always use a descriptor: "Outly: your weekend plan" or "Outly: Hang up and hang out."
+- Pick a distinctive logo and color that does not resemble the outdoor-mapping Outly.
+- Consider a modified store name such as "Outly Weekend Plans" so search results separate you.
+- Avoid the words "outdoors" and "trails" in the name and subtitle, since those apps own that space.
 
 ## Tagline (proposed)
 

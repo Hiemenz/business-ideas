@@ -1,6 +1,6 @@
 # City Explorer: A Badge-Collecting App That Gets You Out of the House (2026-11-14)
 
-**Tagline (proposed):** Hang up and hang out. **Working name:** Weekendly (not final). See `city-explorer/11-name-and-tagline.md`.
+**App name:** Outly (chosen 2026-11-14; trademark, domain and app-store checks still to do, and other apps use this name). **Tagline (proposed):** Hang up and hang out. See `city-explorer/11-name-and-tagline.md`.
 
 ## Core product (one sentence)
 **An app that sends you one notification a week with a ready weekend plan.** You pick the day and time (default Thursday late morning). The notification holds one complete, seasonal plan matched to what you said you like at signup. One tap locks it in. Badges, cohorts, listings and the rest of the files are extras that only matter if this one notification gets people out of the house.
