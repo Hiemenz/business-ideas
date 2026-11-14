@@ -1,5 +1,7 @@
 # City Explorer: A Badge-Collecting App That Gets You Out of the House (2026-11-14)
 
+**Tagline (proposed):** Hang up and hang out. **Working name:** Weekendly (not final). See `city-explorer/11-name-and-tagline.md`.
+
 ## Core product (one sentence)
 **An app that sends you one notification a week with a ready weekend plan.** You pick the day and time (default Thursday late morning). The notification holds one complete, seasonal plan matched to what you said you like at signup. One tap locks it in. Badges, cohorts, listings and the rest of the files are extras that only matter if this one notification gets people out of the house.
 
@@ -183,6 +185,7 @@ This overview is the short version. Detail sits in separate files under `city-ex
 | [08-date-tracks-and-club.md](city-explorer/08-date-tracks-and-club.md) | Dating, married date nights, Date Night Club | Later |
 | [09-business-listings-and-badge-counts.md](city-explorer/09-business-listings-and-badge-counts.md) | Paid listings and badge analytics | Venue revenue |
 | [10-host-locations-and-idea-submissions.md](city-explorer/10-host-locations-and-idea-submissions.md) | Host venues for matchmaking and a way for anyone to submit places and ideas | Submission form is cheap, start in week 1 |
+| [11-name-and-tagline.md](city-explorer/11-name-and-tagline.md) | Name shortlist and the tagline "Hang up and hang out" | Decide before printing anything |
 | [archive-date-spots.md](city-explorer/archive-date-spots.md) | Superseded date-spots idea | Archive |
 
 Related: [parent marketing plan](2026-11-14-city-explorer-parent-marketing-plan.md) and [matchmaking business](2026-11-14-matchmaking-business.md).
