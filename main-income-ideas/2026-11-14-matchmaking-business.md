@@ -143,3 +143,68 @@ One interest in one city, then more interests and cities, then employers, univer
 - Match people to local experiences (classes, tastings, volunteering) and take a booking commission.
 - Match people to mentors or accountability partners in a skill such as coding, fitness or language learning.
 - Match people to products or services through a curated concierge subscription.
+
+---
+
+## Go-to-Market: Building the Database and Getting People in the Door
+
+Matchmaking has a cold-start problem: nobody joins an empty pool, and the pool stays empty until people join. Build it one narrow segment at a time, working Hormozi's Core Four (warm outreach, content, cold outreach, paid ads) in that order.
+
+### Step 0: Pick one tight segment (week 1)
+Choose a single city and a single community or interest, such as "pickleball players in [city], ages 28-45" or "single nurses in [city]." A narrow segment gives density, easy-to-find lead sources and a message that feels written for them. Do not launch to everyone.
+
+### Step 1: Warm outreach (weeks 1-3, free, first 30-50 members)
+- **Your own network:** Message 50 people personally: "I'm starting a small matching service for [segment]. Who do you know who'd want in?" Referral asks convert far better than cold asks.
+- **Community connectors:** Contact club organizers, group admins, run-club leaders, church or community-center staff, gym owners and instructors. Offer free membership and a referral reward ($20 credit or cash per paying member).
+- **Founding offer:** The first 20-30 members get $19 for life or a free first month, in exchange for honest feedback and a testimonial.
+- **Fix the scarce side first:** If one gender or group is outnumbered, recruit that side first with free or discounted membership.
+
+### Step 2: Lead magnets that fill the database (weeks 2-6)
+- **Free compatibility quiz:** "What's your friendship style?" or "What are you really looking for in a partner?" It captures email and phone and doubles as intake data. Every taker becomes a database row.
+- **Free first introduction:** One free match to try. People see the value after they have met someone.
+- **Hosted meetups:** A free or $10 event such as a board-game night, a group run or a speed-friending evening. Collect contact details at the door, then offer matching to attendees. In-person events build trust, the main barrier here.
+- **Waitlist:** A "join the [city] list" page with a live counter ("212 people on the list") for social proof, and a signal of when density is enough to launch.
+
+### Step 3: Content (ongoing, works in 4-8 weeks)
+- Post short, specific content where the segment already spends time: local subreddits, Facebook groups, Instagram and TikTok, Nextdoor and local Discords.
+- Good topics: "How to make friends as an adult in [city]," "5 questions to ask on a first friend-date," and anonymized success stories.
+- Every post ends with the quiz or waitlist link.
+- Check each group's rules first. Some ban self-promotion, so ask admins or lead with value.
+
+### Step 4: Partnerships (weeks 3-10)
+- **Employers and HR:** Companies with many relocated staff want a retention perk. Offer a flat plan per employee.
+- **Universities, alumni groups, new-resident programs, real estate agents and movers:** They meet people who just arrived and need friends. Offer a referral fee.
+- **Venues:** Climbing gyms, cafes, breweries, board-game shops and run clubs can host events and send customers in exchange for foot traffic.
+- **For the marriage and high-net-worth tiers:** Wealth advisors, family-office staff, private-club managers, executive coaches and divorce or estate attorneys meet buyers constantly. Offer each a referral fee and a confidentiality promise.
+
+### Step 5: Referral loop (build in from day one)
+- Give each member a personal invite link. "Bring a friend, you both get a free month" is simple and cheap.
+- Ask for referrals at the moment of delight, right after a good meetup, through the post-meetup text.
+- For marriage matching, one success story can bring 3-5 inquiries. Ask permission to share it anonymously.
+
+### Step 6: Paid ads (only after the first 30-50 paying members)
+- Use ads to scale something proven, not to find product-market fit.
+- Run quiz or event-signup ads to a tight local audience on Instagram or Facebook, targeted by city, age and interest.
+- Track cost per signup, cost per paying member and 90-day retention. If a member's lifetime value is $250 and acquisition costs $40, scale it.
+
+### Database basics
+- **Start simple:** Airtable, Notion or a spreadsheet plus a form tool. Move to a real database once there are a few hundred members.
+- **Fields:** Name, contact, city, interests, skill level, availability, goal (friends, partner, marriage), source, status (lead, member, matched, active, churned) and consent.
+- **Track the source of every signup** to see which channel works.
+- **Use opt-in language** for texts and emails, and keep personal data secure. For the high-net-worth tier, use encrypted storage and strict access control.
+
+### Milestones
+
+| Stage | Goal | Timeframe |
+|---|---|---|
+| Waitlist | 100-200 signups | Weeks 1-4 |
+| First paying members | 20-30 | Weeks 3-6 |
+| Density check | 100+ active in one segment | Weeks 6-12 |
+| First marriage-track clients | 3-5 | Weeks 4-10 |
+| Referral share | 30%+ of new members | By month 3-4 |
+
+### Common mistakes
+- Launching in a whole country or to everyone, with no density anywhere.
+- Running paid ads before the offer and matching quality are proven.
+- Ignoring the scarce side of the pool.
+- Collecting signups without making introductions. Match quickly, because early successes are the marketing.
