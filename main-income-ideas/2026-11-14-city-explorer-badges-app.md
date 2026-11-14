@@ -48,6 +48,54 @@ Badges make exploring feel like a game and give a reason to come back.
 - Leaderboards limited to friends, not strangers, to keep it warm and safe.
 - A feature link to the matchmaking idea: opt-in "find someone to go with" for solo badges. See `2026-11-14-matchmaking-business.md`.
 
+## The "Friday Problem": From Idea to Locked-In Plan
+
+**The real problem (from the founder's own experience):** It is Friday, nothing is planned and there is no clear place to start. An idea alone does not fix this. What fails is the work after the idea: choosing, checking hours, inviting someone, deciding on a time and committing. Each step is a chance to give up and stay home. The app should remove those steps, not just suggest.
+
+**Design principle:** The unit of value is a *plan that is already made*, not an idea. The weekend plan should exist before Friday evening, and if it does not, the app rescues the night.
+
+### The weekly rhythm (replaces the single Thursday message)
+
+| When | Message | Goal |
+|---|---|---|
+| **Wednesday evening** | "Planning ahead: pick one for this weekend" with 3 ideas as big tappable cards | Get a choice before the week fills up |
+| **Thursday late morning** | If no choice yet: one pre-made default plan ("Saturday 11am, farmers market, then coffee next door, 12 min away") with **Lock it in** | Turn a maybe into a yes |
+| **On "Lock it in"** | Add to the calendar, pick or invite a person in one tap with a pre-written message, and confirm hours | Lower effort to near zero |
+| **Friday 3pm** | Check-in: "Still on for tomorrow?" with a weather-aware swap if needed | Prevent the Friday slide |
+| **Friday 5-6pm, no plan locked** | **Rescue mode:** "Nothing planned? Here are 3 things open tonight within 20 min, all easy to say yes to" | Catch the exact moment of the problem |
+| **Saturday morning** | Reminder with address, hours, travel time and one tip | Make going frictionless |
+| **Sunday evening** | "How was it?" with a one-tap check-in for the badge | Close the loop and feed the next pick |
+
+### Features that fix it
+- **One-tap default plan:** Always show a complete plan (activity, time, route, a nearby second stop), never just a place name.
+- **Plan templates by situation:** "Solo, 2 hours, under $15," "Date night, indoor," "Friends, rainy," "Last-minute tonight." Pick a template and it fills in the details.
+- **Rescue mode:** An always-available "I have nothing planned" button that returns open-now options sorted by distance and effort.
+- **Pre-written invites:** One tap sends a text such as "Want to check out the night market Saturday at 7? I'll grab tickets," so asking someone takes seconds.
+- **Commitment device:** Optional "pledge" with a friend: both lock in, and a missed plan costs a small badge streak, not money.
+- **Calendar hold:** Add the plan to the user's calendar with a travel-time buffer.
+- **Weather and energy swap:** One tap to switch to an indoor or lower-effort option if conditions change.
+- **Pre-checked details:** Hours, price and reservation needs are verified, since "closed when we arrived" kills the habit.
+- **Backlog ("Someday list"):** Save ideas as they appear so there is always a bank to draw from on Friday.
+
+### Updated intake additions
+- "When do you usually decide your weekend plans?" (during the week, Friday, day-of)
+- "What stops you from going out?" (no ideas, no one to go with, cost, effort, weather, tiredness)
+- "Who would you want to ask?" (so invites can be pre-filled)
+
+### Updated success metrics
+- **Plan lock rate:** Share of users who tap "Lock it in" by Thursday night (target 40%+).
+- **Friday rescue use:** Share of users with no plan who open rescue mode and go out (target 30%+).
+- **Follow-through rate:** Locked plans that end in a check-in (target 60%+).
+- **Weekends out per month** per active user (the main outcome, target 3+).
+
+### Updated validation test
+For the free Thursday list, test the two versions side by side with 50 subscribers each:
+- **A:** Idea only.
+- **B:** Wednesday pick, Thursday default plan, Friday rescue and one-tap invite.
+Measure which group actually goes out more. If B does not beat A by a clear margin, the extra steps are not worth building.
+
+---
+
 ## Business model
 
 | Revenue line | How it works | Price |
