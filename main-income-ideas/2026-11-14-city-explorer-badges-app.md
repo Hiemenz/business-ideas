@@ -1044,3 +1044,147 @@ Outings per member per month, weekday share of outings, share reached by print o
 - Whether to build the print calendar and phone line before any app features.
 - Whether to sell the gift plan to adult children as the first paid offer.
 - Whether to pursue organization licenses with senior centers and retirement communities in the first 6 months.
+
+---
+
+## Date Night Club: A Cohort of Couples Doing Date Nights Together
+
+The earlier date tracks are for one couple. This is a **group cohort**: several couples who commit to date nights together. It solves a problem married couples rarely admit to: it is hard to make friends as a couple, and hard to keep a date night going alone.
+
+### How it works
+- **Small circles of 3-6 couples** in the same neighborhood and life stage (for example "parents of kids under 6" or "couples married 10+ years"), formed from intake answers.
+- **Monthly rhythm:** Each month one couple picks the date idea from the app's shortlist, and all couples go on their own dates with the same theme, or meet for a double date or group night.
+- **Three formats:**
+  - **Same-theme, separate dates:** Everyone tries "a new cuisine" or "a walk and dessert" and shares one photo and one highlight afterward. Easy for parents.
+  - **Double date:** Two couples meet for an activity (a class, a game night, dinner).
+  - **Group night:** The full circle meets quarterly for a bigger outing.
+- **Sitter swap:** Couples trade childcare so each date night costs less. The app tracks whose turn it is and sends reminders.
+- **Shared challenge:** A circle badge for "everyone completed the month's date," with a small reward from a partner venue.
+- **Conversation cards:** Each theme includes an optional card from the seven-level set. Couples keep their answers private. Only the highlights they choose to post are shared.
+- **Accountability without pressure:** A gentle group nudge ("3 of 5 couples have locked in this month") that never names who is behind.
+- **Rotating host:** The couple whose turn it is gets a "host" badge and a ready-made plan to make it easy.
+
+### Why couples will pay
+- Social accountability makes date night happen.
+- Sitter swaps cut the biggest cost.
+- It builds couple friendships, which many couples say they lack.
+- It gives venues groups of four to twelve people at a time.
+
+### Business model
+- **Date Night Club plan:** $79/yr per couple (assumption), including circle formation, shared plans, sitter-swap tracker and the monthly theme pack.
+- **Venue side:** Group bookings, set menus and class bundles for two to four couples, with a per-person or per-booking fee. Off-peak weeknights are an easy sell.
+- **Sponsors:** Sitter services, family photographers and restaurants sponsor themes.
+- **Employer and community:** A "couples' circle" benefit through employers, faith communities, parents' groups and gyms.
+
+### Safety and rules
+- Circles form by mutual opt-in, with a host and a code of conduct.
+- Public first meetings, and no sharing of addresses until members choose to.
+- Members can leave or switch circles without explanation.
+- Not a swinging or dating-others service. State plainly that it is for existing couples who want friendship and shared date nights, and remove members who break that rule.
+
+### Metrics and validation
+- **Metrics:** Circle formation rate, share of couples completing the monthly date, repeat attendance at group nights, sitter swaps completed, 6-month retention.
+- **Test (weeks 1-8):** Recruit 12 couples through two parent groups, form 3 circles and run two monthly cycles. Gate: at least 60% of couples complete both months and half say they would pay $79.
+- **Main risk:** Scheduling across several couples is hard. Start with the same-theme-separate-dates format and add double dates once the habit sticks.
+
+---
+
+## Other Cohorts You May Be Missing
+
+Current cohorts: young families, teens and young adults, young professionals, couples (dating, married, Date Night Club), empty nesters, retirees, newcomers and older-adult sub-groups. Here are the gaps, with a priority for each.
+
+| Cohort | Why they matter | Needs | Priority |
+|---|---|---|---|
+| **Single parents** | Highest time and money pressure, often isolated | Cheap, short, kid-friendly outings, meeting other single parents, childcare swap | **High** |
+| **New parents (first year, postpartum)** | Isolated and exhausted, very motivated | Stroller-friendly, nap-timed outings, parent meetups, gentle "get out of the house" nudges | **High** (a subset of young families, test it as its own message) |
+| **Parents of teens** | Hard to get teens to join in | Outings teens will actually agree to, plus parent-only dates | Medium |
+| **Remote and work-from-home workers** | Isolated by routine and lacking daily contact | Daytime outings, coworking-cafe meetups, lunch-break walks | **High** |
+| **Shift workers** | Free time is on odd days and hours | Late-night and weekday ideas, 24-hour options | Medium |
+| **Students and international students** | New to the city, on a budget | Free and cheap ideas, cultural events, group hunts, a "first semester" path | Medium |
+| **Visitors and hosts of out-of-town guests** | Frequent need for "what do we do with guests" | Itineraries by guest type (parents, kids, foodies), one-day and weekend plans | **High** (venues love tourist spend, and it builds the local list fast) |
+| **Pet owners** | Strong routines and loyalty | Dog-friendly parks, patios and trails, dog meetups, pet-friendly venues | **High** |
+| **Fitness and outdoors people** | Already out often and love challenges | Trail hunts, climbing, running routes, badge series | Medium |
+| **Foodies** | High spend, highly social | Restaurant crawls, tasting trails, chef events, new openings | **High** (strong venue revenue) |
+| **Hobbyists and makers** | Specific interests | Craft nights, workshops, markets, gaming and book clubs | Medium |
+| **People with disabilities and sensory sensitivities** | Underserved, high need for reliable detail | Verified access, sensory-friendly hours (quiet times), low-noise venues, caregiver support | **High** (builds trust, and the data is rare) |
+| **LGBTQ+ community** | Want welcoming, inclusive places | Verified welcoming venues, community events, date ideas for all couples | Medium-High |
+| **Faith communities** | Natural groups, strong trust | Group outings, marriage nights, family events | Medium (a strong distribution channel) |
+| **Military and relocating families** | Move often and start over | A fast "first 30 days" path, local welcome, spouse meetups | Medium |
+| **Divorced or separated adults** | Rebuilding social life, shared custody weekends | "Weekend without the kids" plans, friend-making, dating again | Medium |
+| **Introverts and anxious joiners** | Avoid big events | Small-group, quiet, structured activities with a clear plan | Medium |
+| **Budget-limited households (all ages)** | Cost blocks many outings | Free and low-cost filters, community events, library and parks programs | **High** (also valuable for public sponsors) |
+| **Couples without kids by choice / long-distance couples** | Different date needs | Adventure and travel-style dates; long-distance: shared plans in two cities | Low-Medium |
+
+### How to pick the next cohorts
+Add a cohort only when it meets three tests: (1) there is a findable channel to reach 100 people, (2) venues or sponsors want that audience, and (3) the content is different enough to deserve its own messages. **Suggested next four after the first two launch cohorts:** visitors and hosts, foodies, pet owners and remote workers, since they are easy to find, spend money and attract venue partners.
+
+### How cohorts coexist
+- Each person has a **primary cohort** and up to two **secondary tags** (for example, parent of toddlers plus pet owner plus foodie). Ideas draw on all of them.
+- Show a **"for you" feed** assembled from tags, and a **"try something different"** slot each week to avoid a narrow bubble.
+- Cohort-specific badges, partners and messages, with a shared city-wide calendar.
+
+---
+
+## Business Listings: Local Businesses Pay to Be Featured
+
+Businesses can pay to be listed and promoted in the app, so the app earns money on the venue side and local businesses get customers they can count.
+
+### What a business gets
+
+| Tier | What's included | Price (assumption) |
+|---|---|---|
+| **Basic listing** | Name, address, hours, photos and a verified profile, with accessibility and kid or date-friendly tags | **Free** (keeps the data complete and honest) |
+| **Featured listing** | Priority in matching searches, an "Add to my plan" button, an offer or deal slot, a monthly performance report | $99-149/mo |
+| **Spotlight placement** | Featured as a Thursday or Wednesday idea or in a seasonal list for a chosen cohort | $199-399 per placement |
+| **Cohort targeting** | Choose which cohorts see the listing (young families, date nights, older adults, foodies) | Add $49-99/mo per cohort |
+| **Offers and bundles** | Date Night Bundle, family pack, weekday senior special, redeemable by code | A fee per redeemed bundle (10-15% or $2-5 per visit) |
+| **Sponsored challenge or badge** | A badge series that sends people to your location, such as "Taste of the District" | $500-3,000 per campaign |
+| **Event listing** | A promoted event on the calendar and in Thursday plans | $49-149 per event |
+| **Annual plan** | Any of the above billed yearly | Two months free |
+
+### Rules that protect trust (essential)
+- **Always label paid placements** clearly ("Sponsored" or "Featured") so users know what is paid.
+- **Payment never buys ratings, reviews or badges.** Ratings and member photos stay independent, and a business cannot remove honest feedback.
+- **Quality bar:** Only list businesses that meet basic standards (verified hours, accurate details, reasonable reviews). Pull a listing that repeatedly misleads people.
+- **Relevance rule:** A paid listing shows only to cohorts it fits. A bar does not appear in a young-family feed.
+- **Cap sponsored share:** No more than 1 in 3 ideas in any plan is sponsored (assumption), so the feed stays useful.
+- **Free listings stay discoverable** so small businesses without a budget still appear.
+- **Check local advertising rules** on paid-placement disclosure, and have a lawyer review the advertiser agreement, refund terms and content standards.
+
+### How businesses sign up and see results
+- **Self-serve dashboard:** Claim the listing, verify ownership, upload photos, set hours, create an offer, pick cohorts and see results.
+- **Verified-visit tracking:** A code, QR scan or reservation link counts redeemed visits.
+- **Monthly report:** Views, plan adds, redeemed visits, estimated spend (using the venue's average ticket) and cost per visit.
+- **Guarantee for the first 60 days:** "If we don't send you at least 20 countable visits, you don't pay." This reduces risk for small businesses and supports early sales.
+- **Onboarding:** A short call or video to set up the first offer, because a good offer is the biggest driver of results.
+
+### Business revenue math (illustrative)
+- 40 featured listings x $129 = $5,160/mo
+- 10 cohort-targeting add-ons x $70 = $700/mo
+- 6 spotlight placements x $250 = $1,500/mo
+- Redeemed bundles: 300 per month x $3 = $900/mo
+- 1 sponsored challenge a month x $1,000 = $1,000/mo
+- **About $9,260/mo** from one mid-sized city, before consumer revenue. This is a target to test, not a forecast.
+
+### How to sell it
+- Start with businesses already on the free list and show their visits and plan adds from the free tier.
+- Lead with the pilot guarantee, and offer a founding-business price for the first 20 (locked for a year).
+- Target businesses with empty off-peak hours: weekday lunches, early evenings, weekday mornings.
+- Go through business-improvement districts, chambers of commerce, restaurant associations and family-venue networks to reach 20-50 businesses at a time.
+- Share case studies ("12 new families visited in 30 days").
+
+### Metrics
+Free-to-paid listing conversion, redeemed visits per paid listing, cost per visit, listing retention at 3 and 6 months, share of sponsored items in plans, user trust (complaints about paid placement), and revenue per business.
+
+### Risks
+- **Pay-to-play perception:** If users feel recommendations are bought, trust drops. Strict labeling, a sponsored-share cap and independent ratings reduce this.
+- **Small-business budgets:** Many cannot spend $129/mo. Use per-visit pricing and the pilot guarantee.
+- **Attribution disputes:** Businesses may doubt the counts. Use redeemed codes and share the raw numbers.
+- **Concentration:** If a few large venues dominate paid slots, the feed gets repetitive. Rotate and cap.
+- **Early scale:** Paid listings need enough users first. Do not sell heavily until the free list shows consistent plan-lock and visit data.
+
+### Open decisions
+- Which two additional cohorts to launch first (this file suggests visitors and hosts, plus foodies or pet owners).
+- Whether to launch Date Night Club before or after the married-date-night track proves out.
+- Whether featured listings are monthly, per-visit or a mix.
+- The sponsored-share cap (1 in 3 is an assumption to test).
