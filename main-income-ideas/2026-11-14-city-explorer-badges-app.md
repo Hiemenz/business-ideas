@@ -998,7 +998,7 @@ A person can belong to more than one (for example a retired grandparent who is d
 - **Venue side:** Museums, theaters, gardens, cafes and classes want weekday daytime visitors and will pay per redeemed visit or for featured slots. Older adults often have a loyal, repeat-visit pattern that venues value.
 - **Community partnerships:** Senior centers, libraries, parks departments, community colleges, retirement communities, faith communities and area agencies on aging can distribute the printed calendar and host groups. Offer an organization license ($300-1,500/yr, assumption) that includes group tools and reporting.
 - **Retirement communities:** A custom branded version for residents' off-campus outings ($300-800/mo per community, assumption).
-- **Sponsors:** Local healthcare providers, pharmacies, financial planners, hearing and vision services and funeral-planning-free community businesses might sponsor a series. Check rules for any health or financial advertising to older adults, and keep sponsorship clearly labeled and non-medical.
+- **Sponsors:** Local healthcare providers, pharmacies, financial planners, and hearing and vision services might sponsor a series. Check rules for any health or financial advertising to older adults, and keep sponsorship clearly labeled and non-medical.
 - **Insurers and health-plan wellness programs:** Possible later partners for "social connection" benefits. These programs are regulated, so check requirements before pitching, and treat this as a later-stage option.
 
 ### Marketing for this cohort
