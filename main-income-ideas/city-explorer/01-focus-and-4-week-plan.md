@@ -8,7 +8,7 @@ The full concept is too big for one person. This page picks **one launch product
 
 **Who:** Parents of children aged 0-8 in one neighborhood cluster, including married couples who want a regular date night.
 
-**What they get:** A free weekly message that gives a complete weekend plan (place, time, travel, backup, what's been checked), a one-tap "lock it in" that texts the other parent, and a Friday rescue message if nothing is planned. Married couples get one optional date-night plan a month with a short conversation card.
+**What they get:** One notification a week with a complete weekend plan (place, time, travel, backup, what's been checked) and a one-tap "lock it in" that texts the other parent. The Friday rescue is a button or reply keyword the parent uses on request, not an extra message. Married couples get one optional date-night plan a month with a short conversation card.
 
 **What it is not (yet):** No app, no badges, no photo hunts, no paid listings, no other cohorts, no older-adult or dating tracks.
 
@@ -27,7 +27,7 @@ The full concept is too big for one person. This page picks **one launch product
 | Week | What you do | Hours | Done when |
 |---|---|---|---|
 | **1** | Pick the cluster. Build the 60-place sheet and 10 date plans. Write the intake form and the first three weekly messages. Message 40 parents you know. | 12-15 | 20 parents signed up |
-| **2** | Send the first plan to everyone. Half get an idea only (Group A). Half get the full lock-in plan with a Friday rescue (Group B). Log replies and who went. | 10-12 | First results logged |
+| **2** | Send the first plan to everyone. Half get an idea only (Group A). Half get the full plan with lock-in and an on-request rescue (Group B). Both groups get exactly one message a week. Log replies and who went. | 10-12 | First results logged |
 | **3** | Send the second plan, switching nothing. Call 8 parents (4 per group) and ask what got in the way. Add 10 more parents through two parent-group admins. | 10-12 | 30 parents, 8 interviews |
 | **4** | Send the third plan. Offer a founding price ($19 for the first year) and 3 local businesses a free featured slot. Count the results and decide. | 8-10 | Decision made |
 

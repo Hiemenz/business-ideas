@@ -1,6 +1,15 @@
 # City Explorer: A Badge-Collecting App That Gets You Out of the House (2026-11-14)
 
-A local-discovery app. Users collect badges for doing different things in their own city, alone, with friends or with a partner. Every Thursday it sends one specific, seasonal idea for the weekend, tuned by what the user said they like at signup.
+## Core product (one sentence)
+**An app that sends you one notification a week with a ready weekend plan.** You pick the day and time (default Thursday late morning). The notification holds one complete, seasonal plan matched to what you said you like at signup. One tap locks it in. Badges, cohorts, listings and the rest of the files are extras that only matter if this one notification gets people out of the house.
+
+**Rules for the core product:**
+- **One notification a week.** No daily pings, no nagging. Anything else is sent only after the user does something (taps "lock it in," asks for a reminder).
+- **One plan, not a feed.** The notification shows a single plan with what, where, when, cost and travel time. Two alternates sit one tap away inside the app.
+- **Open the app to act.** Tapping the notification opens the plan with Lock it in, Swap, Invite someone and Not this week.
+- **Rescue is pull, not push.** A button in the app ("I have nothing planned") returns open-now options on demand, so the Friday problem is solved without sending another notification.
+
+Users also collect badges for doing different things in their own city, alone, with friends or with a partner.
 
 ## Who this is for
 A 29-year-old software engineer with data skills who wants $8-15K+/mo building solo, with no outside funding. This idea has a real mobile or web build, so the plan below keeps the first version very small.
@@ -54,17 +63,17 @@ Badges make exploring feel like a game and give a reason to come back.
 
 **Design principle:** The unit of value is a *plan that is already made*, not an idea. The weekend plan should exist before Friday evening, and if it does not, the app rescues the night.
 
-### The weekly rhythm (replaces the single Thursday message)
+### The weekly rhythm: one notification, everything else on request
 
-| When | Message | Goal |
+| When | What happens | Sent by the app? |
 |---|---|---|
-| **Wednesday evening** | "Planning ahead: pick one for this weekend" with 3 ideas as big tappable cards | Get a choice before the week fills up |
-| **Thursday late morning** | If no choice yet: one pre-made default plan ("Saturday 11am, farmers market, then coffee next door, 12 min away") with **Lock it in** | Turn a maybe into a yes |
-| **On "Lock it in"** | Add to the calendar, pick or invite a person in one tap with a pre-written message, and confirm hours | Lower effort to near zero |
-| **Friday 3pm** | Check-in: "Still on for tomorrow?" with a weather-aware swap if needed | Prevent the Friday slide |
-| **Friday 5-6pm, no plan locked** | **Rescue mode:** "Nothing planned? Here are 3 things open tonight within 20 min, all easy to say yes to" | Catch the exact moment of the problem |
-| **Saturday morning** | Reminder with address, hours, travel time and one tip | Make going frictionless |
-| **Sunday evening** | "How was it?" with a one-tap check-in for the badge | Close the loop and feed the next pick |
+| **Weekly, user's chosen day (default Thursday late morning)** | **The one notification:** a complete plan ("Saturday 11am, farmers market, then coffee next door, 12 min away") with **Lock it in** | Yes, the only unprompted message |
+| **On "Lock it in"** | Add to the calendar, invite a person in one tap with a pre-written message, confirm hours | After the user's tap |
+| **Day before a locked plan** | One reminder with address, hours, travel time and a weather swap if needed | Only if the user locked a plan (can be turned off) |
+| **Friday evening, nothing locked** | **Rescue mode,** pulled by the user: "I have nothing planned" shows 3 open-now options within 20 minutes | No, the user opens it |
+| **After the outing** | "How was it?" one-tap check-in for the badge, shown the next time the app opens | No push by default |
+
+Earlier drafts had Wednesday, Thursday, Friday, Saturday and Sunday messages. Those are replaced by this single weekly notification to avoid fatigue.
 
 ### Features that fix it
 - **One-tap default plan:** Always show a complete plan (activity, time, route, a nearby second stop), never just a place name.
@@ -84,14 +93,15 @@ Badges make exploring feel like a game and give a reason to come back.
 
 ### Updated success metrics
 - **Plan lock rate:** Share of users who tap "Lock it in" by Thursday night (target 40%+).
-- **Friday rescue use:** Share of users with no plan who open rescue mode and go out (target 30%+).
+- **Rescue use:** Share of users with no plan who open rescue mode on Friday and go out (target 30%+).
+- **Notification health:** Open rate of the weekly notification (target 50%+) and opt-out rate under 2% per send (assumption).
 - **Follow-through rate:** Locked plans that end in a check-in (target 60%+).
 - **Weekends out per month** per active user (the main outcome, target 3+).
 
 ### Updated validation test
 For the free Thursday list, test the two versions side by side with 50 subscribers each:
 - **A:** Idea only.
-- **B:** Wednesday pick, Thursday default plan, Friday rescue and one-tap invite.
+- **B:** One weekly notification with a complete plan, one-tap lock-in and invite, and an in-app rescue button.
 Measure which group actually goes out more. If B does not beat A by a clear margin, the extra steps are not worth building.
 
 ---
